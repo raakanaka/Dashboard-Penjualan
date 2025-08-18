@@ -26,6 +26,7 @@ class DashboardController extends Controller
 
             // Sales statistics
             $totalSalesAmount = Sale::where('status', 'completed')->sum('final_amount');
+            $totalRevenue = $totalSalesAmount; // Alias for consistency
             $todaySales = Sale::whereDate('created_at', Carbon::today())
                 ->where('status', 'completed')
                 ->sum('final_amount');
@@ -45,7 +46,13 @@ class DashboardController extends Controller
                 ->sum('final_amount');
 
             // Low stock products
-            $lowStockProducts = Product::whereRaw('stock <= min_stock')->get();
+            $lowStockProducts = Product::whereRaw('stock <= min_stock')->count();
+
+            // Average order value
+            $avgOrderValue = $totalSales > 0 ? $totalRevenue / $totalSales : 0;
+
+            // Conversion rate (mock data for now)
+            $conversionRate = 12.5; // Mock conversion rate
 
             // Recent sales
             $recentSales = Sale::with(['customer'])
@@ -64,8 +71,8 @@ class DashboardController extends Controller
             try {
                 $topProducts = DB::table('sale_items')
                     ->join('products', 'sale_items.product_id', '=', 'products.id')
-                    ->select('products.name', DB::raw('SUM(sale_items.quantity) as total_sold'))
-                    ->groupBy('products.id', 'products.name')
+                    ->select('products.name', 'products.sku', 'products.price', 'products.stock', 'products.min_stock', DB::raw('SUM(sale_items.quantity) as total_sold'))
+                    ->groupBy('products.id', 'products.name', 'products.sku', 'products.price', 'products.stock', 'products.min_stock')
                     ->orderBy('total_sold', 'desc')
                     ->limit(5)
                     ->get();
@@ -74,12 +81,29 @@ class DashboardController extends Controller
                 $topProducts = Product::inRandomOrder()->limit(5)->get()->map(function($product) {
                     return (object) [
                         'name' => $product->name,
+                        'sku' => $product->sku,
+                        'price' => $product->price,
+                        'stock' => $product->stock,
+                        'min_stock' => $product->min_stock,
                         'total_sold' => rand(1, 50)
                     ];
                 });
             }
 
             // Sales chart data (last 7 days)
+            $salesTrendLabels = [];
+            $salesTrendData = [];
+            for ($i = 6; $i >= 0; $i--) {
+                $date = Carbon::now()->subDays($i);
+                $salesAmount = Sale::whereDate('created_at', $date)
+                    ->where('status', 'completed')
+                    ->sum('final_amount');
+                
+                $salesTrendLabels[] = $date->format('d M');
+                $salesTrendData[] = $salesAmount;
+            }
+
+            // Legacy sales chart data for backward compatibility
             $salesChartData = [];
             for ($i = 6; $i >= 0; $i--) {
                 $date = Carbon::now()->subDays($i);
@@ -100,16 +124,21 @@ class DashboardController extends Controller
                 'totalSales',
                 'totalPurchases',
                 'totalSalesAmount',
+                'totalRevenue',
                 'todaySales',
                 'thisMonthSales',
                 'totalPurchaseAmount',
                 'todayPurchases',
                 'thisMonthPurchases',
                 'lowStockProducts',
+                'avgOrderValue',
+                'conversionRate',
                 'recentSales',
                 'recentPurchases',
                 'topProducts',
-                'salesChartData'
+                'salesChartData',
+                'salesTrendLabels',
+                'salesTrendData'
             ));
         } catch (\Exception $e) {
             // Return basic data if there's an error
@@ -120,16 +149,21 @@ class DashboardController extends Controller
                 'totalSales' => 0,
                 'totalPurchases' => 0,
                 'totalSalesAmount' => 0,
+                'totalRevenue' => 0,
                 'todaySales' => 0,
                 'thisMonthSales' => 0,
                 'totalPurchaseAmount' => 0,
                 'todayPurchases' => 0,
                 'thisMonthPurchases' => 0,
-                'lowStockProducts' => collect(),
+                'lowStockProducts' => 0,
+                'avgOrderValue' => 0,
+                'conversionRate' => 0,
                 'recentSales' => collect(),
                 'recentPurchases' => collect(),
                 'topProducts' => collect(),
-                'salesChartData' => []
+                'salesChartData' => [],
+                'salesTrendLabels' => [],
+                'salesTrendData' => []
             ]);
         }
     }

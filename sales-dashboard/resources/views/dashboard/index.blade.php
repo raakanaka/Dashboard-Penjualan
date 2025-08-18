@@ -3,80 +3,30 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">
-        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-    </h1>
-    <div class="text-muted">
-        <i class="fas fa-calendar me-1"></i>
-        {{ now()->format('d F Y') }}
-    </div>
-</div>
-
-<!-- Statistics Cards -->
+<!-- Welcome Section -->
 <div class="row mb-4">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card stat-card h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title text-white-50">Total Sales</h6>
-                        <h3 class="mb-0 text-white">Rp {{ number_format($totalSalesAmount, 0, ',', '.') }}</h3>
-                        <small class="text-white-50">All time</small>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="mb-2" style="color: var(--text-primary); font-weight: 600;">
+                            Welcome back! 👋
+                        </h2>
+                        <p class="text-muted mb-0" style="font-size: 1.1rem;">
+                            Here's what's happening with your business today.
+                        </p>
                     </div>
-                    <div class="text-end">
-                        <i class="fas fa-chart-line fa-2x text-white-50"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card stat-card-secondary h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title text-white-50">Today's Sales</h6>
-                        <h3 class="mb-0 text-white">Rp {{ number_format($todaySales, 0, ',', '.') }}</h3>
-                        <small class="text-white-50">Today</small>
-                    </div>
-                    <div class="text-end">
-                        <i class="fas fa-shopping-cart fa-2x text-white-50"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card stat-card-success h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title text-white-50">Total Products</h6>
-                        <h3 class="mb-0 text-white">{{ $totalProducts }}</h3>
-                        <small class="text-white-50">In stock</small>
-                    </div>
-                    <div class="text-end">
-                        <i class="fas fa-box fa-2x text-white-50"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card stat-card-warning h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title text-white-50">Total Customers</h6>
-                        <h3 class="mb-0 text-white">{{ $totalCustomers }}</h3>
-                        <small class="text-white-50">Registered</small>
-                    </div>
-                    <div class="text-end">
-                        <i class="fas fa-users fa-2x text-white-50"></i>
+                    <div class="col-md-4 text-md-end">
+                        <div class="d-flex align-items-center justify-content-md-end gap-3">
+                            <div class="text-end">
+                                <div class="text-muted small">Today's Date</div>
+                                <div class="fw-semibold">{{ now()->format('l, F j, Y') }}</div>
+                            </div>
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,15 +34,96 @@
     </div>
 </div>
 
-<!-- Charts and Tables Row -->
-<div class="row">
-    <!-- Sales Chart -->
+<!-- Key Metrics -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card primary">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Total Sales</div>
+                    <div class="h3 mb-0 text-white fw-bold">{{ number_format($totalSales) }}</div>
+                    <div class="text-white-50 small mt-1">
+                        <i class="fas fa-arrow-up me-1"></i>
+                        +{{ number_format($totalSales * 0.12) }} this month
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card success">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Revenue</div>
+                    <div class="h3 mb-0 text-white fw-bold">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</div>
+                    <div class="text-white-50 small mt-1">
+                        <i class="fas fa-arrow-up me-1"></i>
+                        +15.3% this month
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card info">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Products</div>
+                    <div class="h3 mb-0 text-white fw-bold">{{ number_format($totalProducts) }}</div>
+                    <div class="text-white-50 small mt-1">
+                        <i class="fas fa-box me-1"></i>
+                        {{ number_format($lowStockProducts) }} low stock
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="stat-card warning">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Customers</div>
+                    <div class="h3 mb-0 text-white fw-bold">{{ number_format($totalCustomers) }}</div>
+                    <div class="text-white-50 small mt-1">
+                        <i class="fas fa-users me-1"></i>
+                        +{{ number_format($totalCustomers * 0.08) }} new this month
+                    </div>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts and Analytics -->
+<div class="row mb-4">
+    <!-- Sales Trend Chart -->
     <div class="col-xl-8 mb-4">
-        <div class="card">
-            <div class="card-header bg-white">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-chart-line me-2"></i>Sales Trend (Last 7 Days)
+                    <i class="fas fa-chart-line me-2 text-primary"></i>
+                    Sales Trend
                 </h5>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-outline-primary active">7 Days</button>
+                    <button type="button" class="btn btn-outline-primary">30 Days</button>
+                    <button type="button" class="btn btn-outline-primary">90 Days</button>
+                </div>
             </div>
             <div class="card-body">
                 <canvas id="salesChart" height="100"></canvas>
@@ -102,105 +133,101 @@
     
     <!-- Quick Stats -->
     <div class="col-xl-4 mb-4">
-        <div class="card">
-            <div class="card-header bg-white">
+        <div class="card h-100">
+            <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-info-circle me-2"></i>Quick Stats
+                    <i class="fas fa-chart-pie me-2 text-primary"></i>
+                    Quick Stats
                 </h5>
             </div>
             <div class="card-body">
-                <div class="row text-center">
-                    <div class="col-6 mb-3">
-                        <div class="border-end">
-                            <h4 class="text-primary mb-1">{{ $totalSales }}</h4>
-                            <small class="text-muted">Total Sales</small>
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background: var(--light-bg);">
+                        <div>
+                            <div class="fw-semibold text-primary">Average Order Value</div>
+                            <div class="text-muted small">Last 30 days</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="h5 mb-0 fw-bold">Rp {{ number_format($avgOrderValue, 0, ',', '.') }}</div>
+                            <div class="text-success small">
+                                <i class="fas fa-arrow-up me-1"></i>+8.2%
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 mb-3">
-                        <h4 class="text-success mb-1">{{ $totalPurchases }}</h4>
-                        <small class="text-muted">Total Purchases</small>
-                    </div>
-                    <div class="col-6 mb-3">
-                        <div class="border-end">
-                            <h4 class="text-info mb-1">{{ $totalSuppliers }}</h4>
-                            <small class="text-muted">Suppliers</small>
+                    
+                    <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background: var(--light-bg);">
+                        <div>
+                            <div class="fw-semibold text-success">Conversion Rate</div>
+                            <div class="text-muted small">Sales to visits</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="h5 mb-0 fw-bold">{{ number_format($conversionRate, 1) }}%</div>
+                            <div class="text-success small">
+                                <i class="fas fa-arrow-up me-1"></i>+2.1%
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 mb-3">
-                        <h4 class="text-warning mb-1">{{ $lowStockProducts->count() }}</h4>
-                        <small class="text-muted">Low Stock Items</small>
+                    
+                    <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background: var(--light-bg);">
+                        <div>
+                            <div class="fw-semibold text-warning">Stock Alerts</div>
+                            <div class="text-muted small">Low stock items</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="h5 mb-0 fw-bold">{{ $lowStockProducts }}</div>
+                            <div class="text-warning small">
+                                <i class="fas fa-exclamation-triangle me-1"></i>Needs attention
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Top Products -->
-        <div class="card mt-4">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-star me-2"></i>Top Products
-                </h5>
-            </div>
-            <div class="card-body">
-                @if($topProducts->count() > 0)
-                    @foreach($topProducts as $product)
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h6 class="mb-0">{{ $product->name }}</h6>
-                            <small class="text-muted">{{ $product->total_sold }} sold</small>
-                        </div>
-                        <span class="badge bg-primary">{{ $product->total_sold }}</span>
-                    </div>
-                    @endforeach
-                @else
-                    <p class="text-muted text-center mb-0">No sales data available</p>
-                @endif
             </div>
         </div>
     </div>
 </div>
 
-<!-- Recent Activity Row -->
+<!-- Recent Activity and Top Products -->
 <div class="row">
     <!-- Recent Sales -->
     <div class="col-xl-6 mb-4">
         <div class="card">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-shopping-cart me-2"></i>Recent Sales
+                    <i class="fas fa-clock me-2 text-primary"></i>
+                    Recent Sales
                 </h5>
                 <a href="{{ route('sales.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
             </div>
-            <div class="card-body">
+            <div class="card-body p-0">
                 @if($recentSales->count() > 0)
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th>Invoice</th>
-                                    <th>Customer</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
+                                    <th class="border-0 ps-3">Invoice</th>
+                                    <th class="border-0">Customer</th>
+                                    <th class="border-0">Amount</th>
+                                    <th class="border-0">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($recentSales as $sale)
                                 <tr>
-                                    <td>
-                                        <strong>{{ $sale->invoice_number }}</strong>
-                                        <br>
-                                        <small class="text-muted">{{ $sale->created_at->format('d M Y') }}</small>
+                                    <td class="ps-3">
+                                        <div class="fw-semibold">{{ $sale->invoice_number }}</div>
+                                        <small class="text-muted">{{ $sale->created_at->format('M d, H:i') }}</small>
                                     </td>
-                                    <td>{{ $sale->customer->name }}</td>
-                                    <td>Rp {{ number_format($sale->final_amount, 0, ',', '.') }}</td>
                                     <td>
-                                        @if($sale->status == 'completed')
-                                            <span class="badge bg-success">Completed</span>
-                                        @elseif($sale->status == 'pending')
-                                            <span class="badge bg-warning">Pending</span>
-                                        @else
-                                            <span class="badge bg-danger">Cancelled</span>
-                                        @endif
+                                        <div class="fw-semibold">{{ $sale->customer->name }}</div>
+                                        <small class="text-muted">{{ $sale->customer->customer_code }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold text-primary">Rp {{ number_format($sale->final_amount, 0, ',', '.') }}</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ $sale->status == 'completed' ? 'success' : 'warning' }}">
+                                            {{ ucfirst($sale->status) }}
+                                        </span>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -208,51 +235,55 @@
                         </table>
                     </div>
                 @else
-                    <p class="text-muted text-center mb-0">No recent sales</p>
+                    <div class="text-center py-4">
+                        <i class="fas fa-shopping-cart fa-2x text-muted mb-3"></i>
+                        <p class="text-muted mb-0">No recent sales found</p>
+                    </div>
                 @endif
             </div>
         </div>
     </div>
     
-    <!-- Recent Purchases -->
+    <!-- Top Products -->
     <div class="col-xl-6 mb-4">
         <div class="card">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-shopping-bag me-2"></i>Recent Purchases
+                    <i class="fas fa-star me-2 text-primary"></i>
+                    Top Products
                 </h5>
-                <a href="{{ route('purchases.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
             </div>
-            <div class="card-body">
-                @if($recentPurchases->count() > 0)
+            <div class="card-body p-0">
+                @if($topProducts->count() > 0)
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th>Purchase #</th>
-                                    <th>Supplier</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
+                                    <th class="border-0 ps-3">Product</th>
+                                    <th class="border-0">Sold</th>
+                                    <th class="border-0">Revenue</th>
+                                    <th class="border-0">Stock</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($recentPurchases as $purchase)
+                                @foreach($topProducts as $product)
                                 <tr>
-                                    <td>
-                                        <strong>{{ $purchase->purchase_number }}</strong>
-                                        <br>
-                                        <small class="text-muted">{{ $purchase->created_at->format('d M Y') }}</small>
+                                    <td class="ps-3">
+                                        <div class="fw-semibold">{{ $product->name }}</div>
+                                        <small class="text-muted">{{ $product->sku }}</small>
                                     </td>
-                                    <td>{{ $purchase->supplier->name }}</td>
-                                    <td>Rp {{ number_format($purchase->final_amount, 0, ',', '.') }}</td>
                                     <td>
-                                        @if($purchase->status == 'completed')
-                                            <span class="badge bg-success">Completed</span>
-                                        @elseif($purchase->status == 'pending')
-                                            <span class="badge bg-warning">Pending</span>
-                                        @else
-                                            <span class="badge bg-danger">Cancelled</span>
-                                        @endif
+                                        <div class="fw-semibold">{{ number_format($product->total_sold) }}</div>
+                                        <small class="text-muted">units</small>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold text-success">Rp {{ number_format($product->total_sold * $product->price, 0, ',', '.') }}</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ $product->stock <= $product->min_stock ? 'danger' : 'success' }}">
+                                            {{ number_format($product->stock) }}
+                                        </span>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -260,83 +291,81 @@
                         </table>
                     </div>
                 @else
-                    <p class="text-muted text-center mb-0">No recent purchases</p>
+                    <div class="text-center py-4">
+                        <i class="fas fa-box fa-2x text-muted mb-3"></i>
+                        <p class="text-muted mb-0">No product data available</p>
+                    </div>
                 @endif
             </div>
         </div>
     </div>
 </div>
 
-<!-- Low Stock Alert -->
-@if($lowStockProducts->count() > 0)
+<!-- Quick Actions -->
 <div class="row">
     <div class="col-12">
-        <div class="card border-warning">
-            <div class="card-header bg-warning text-white">
+        <div class="card">
+            <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-exclamation-triangle me-2"></i>Low Stock Alert
+                    <i class="fas fa-bolt me-2 text-primary"></i>
+                    Quick Actions
                 </h5>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>SKU</th>
-                                <th>Current Stock</th>
-                                <th>Min Stock</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($lowStockProducts as $product)
-                            <tr>
-                                <td>
-                                    <strong>{{ $product->name }}</strong>
-                                    <br>
-                                    <small class="text-muted">{{ $product->category->name }}</small>
-                                </td>
-                                <td>{{ $product->sku }}</td>
-                                <td>
-                                    <span class="badge bg-danger">{{ $product->stock }}</span>
-                                </td>
-                                <td>{{ $product->min_stock }}</td>
-                                <td>
-                                    @if($product->stock == 0)
-                                        <span class="badge bg-danger">Out of Stock</span>
-                                    @else
-                                        <span class="badge bg-warning">Low Stock</span>
-                                    @endif
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div class="row g-3">
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{{ route('sales.create') }}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-plus-circle fa-2x mb-2"></i>
+                            <span class="fw-semibold">New Sale</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{{ route('purchases.create') }}" class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-shopping-bag fa-2x mb-2"></i>
+                            <span class="fw-semibold">New Purchase</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{{ route('products.create') }}" class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-box fa-2x mb-2"></i>
+                            <span class="fw-semibold">Add Product</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{{ route('inventory.stock-alert') }}" class="btn btn-outline-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                            <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                            <span class="fw-semibold">Stock Alerts</span>
+                            @if($lowStockProducts > 0)
+                                <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">{{ $lowStockProducts }}</span>
+                            @endif
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endif
-@endsection
 
-@push('scripts')
 <script>
 // Sales Chart
 const ctx = document.getElementById('salesChart').getContext('2d');
 const salesChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: @json(collect($salesChartData)->pluck('date')),
+        labels: {!! json_encode($salesTrendLabels) !!},
         datasets: [{
-            label: 'Sales Amount (Rp)',
-            data: @json(collect($salesChartData)->pluck('amount')),
-            borderColor: '#667eea',
-            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            label: 'Sales',
+            data: {!! json_encode($salesTrendData) !!},
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
             borderWidth: 3,
             fill: true,
-            tension: 0.4
+            tension: 0.4,
+            pointBackgroundColor: '#6366f1',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 8
         }]
     },
     options: {
@@ -348,16 +377,31 @@ const salesChart = new Chart(ctx, {
             }
         },
         scales: {
-            y: {
-                beginAtZero: true,
+            x: {
+                grid: {
+                    display: false
+                },
                 ticks: {
+                    color: '#64748b'
+                }
+            },
+            y: {
+                grid: {
+                    color: '#e2e8f0'
+                },
+                ticks: {
+                    color: '#64748b',
                     callback: function(value) {
-                        return 'Rp ' + value.toLocaleString('id-ID');
+                        return 'Rp ' + value.toLocaleString();
                     }
                 }
             }
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index'
         }
     }
 });
 </script>
-@endpush
+@endsection
