@@ -8,6 +8,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,14 +49,6 @@ Route::resource('inventory', InventoryController::class);
 Route::get('/inventory/stock-alert', [InventoryController::class, 'stockAlert'])->name('inventory.stock-alert');
 
 // Reports
-Route::get('/reports/sales', function () {
-    return view('reports.sales');
-})->name('reports.sales');
-
-Route::get('/reports/purchases', function () {
-    return view('reports.purchases');
-})->name('reports.purchases');
-
-Route::get('/reports/inventory', function () {
-    return view('reports.inventory');
-})->name('reports.inventory');
+Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
+Route::get('/reports/purchases', [ReportController::class, 'purchases'])->name('reports.purchases');
+Route::get('/reports/inventory', [ReportController::class, 'inventory'])->name('reports.inventory');
