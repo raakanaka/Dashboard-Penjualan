@@ -5,16 +5,52 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->paginate(10);
-        return view('products.index', compact('products'));
+        $query = Product::with('category');
+        
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('sku', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+        
+        // Category filter
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        
+        // Stock status filter
+        if ($request->filled('stock_status')) {
+            switch ($request->stock_status) {
+                case 'in_stock':
+                    $query->where('stock', '>', DB::raw('min_stock'));
+                    break;
+                case 'low_stock':
+                    $query->where('stock', '<=', DB::raw('min_stock'))
+                          ->where('stock', '>', 0);
+                    break;
+                case 'out_of_stock':
+                    $query->where('stock', 0);
+                    break;
+            }
+        }
+        
+        $products = $query->orderBy('created_at', 'desc')->paginate(12);
+        $categories = Category::where('is_active', true)->get();
+        
+        return view('products.index', compact('products', 'categories'));
     }
 
     /**

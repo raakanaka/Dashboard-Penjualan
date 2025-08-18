@@ -72,7 +72,7 @@
                     @else
                         <div class="card-img-top d-flex align-items-center justify-content-center bg-light" 
                              style="height: 200px;">
-                            <i class="fas fa-box fa-3x text-muted"></i>
+                            <i class="fas fa-box fa-2x text-muted"></i>
                         </div>
                     @endif
                     
@@ -98,14 +98,12 @@
                         {{ $product->name }}
                     </h6>
                     
-                    <p class="card-text text-muted small mb-3 flex-grow-1">
-                        {{ Str::limit($product->description, 80) ?: 'No description available' }}
-                    </p>
+                    <p class="text-muted small mb-3">{{ Str::limit($product->description, 80) }}</p>
                     
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted small">SKU:</span>
-                            <span class="fw-semibold small">{{ $product->sku }}</span>
+                            <span class="fw-semibold text-secondary">{{ $product->sku }}</span>
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -125,18 +123,18 @@
                         <div class="btn-group w-100" role="group">
                             <a href="{{ route('products.show', $product) }}" 
                                class="btn btn-outline-info btn-sm" title="View">
-                                <i class="fas fa-eye"></i>
+                                <i class="fas fa-eye fa-sm"></i>
                             </a>
                             <a href="{{ route('products.edit', $product) }}" 
                                class="btn btn-outline-warning btn-sm" title="Edit">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-edit fa-sm"></i>
                             </a>
                             <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-outline-danger btn-sm" 
                                         onclick="return confirm('Are you sure you want to delete this product?')" title="Delete">
-                                    <i class="fas fa-trash"></i>
+                                    <i class="fas fa-trash fa-sm"></i>
                                 </button>
                             </form>
                         </div>
@@ -147,16 +145,20 @@
         @endforeach
     </div>
     
-    <!-- Pagination -->
-    <div class="d-flex justify-content-center mt-4">
-        {{ $products->appends(request()->query())->links() }}
-    </div>
+    <!-- Responsive Pagination -->
+    @if($products->hasPages())
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Products pagination">
+                {{ $products->appends(request()->query())->links('pagination::bootstrap-5') }}
+            </nav>
+        </div>
+    @endif
 @else
     <!-- Empty State -->
     <div class="card">
         <div class="card-body text-center py-5">
             <div class="mb-4">
-                <i class="fas fa-box fa-4x text-muted"></i>
+                <i class="fas fa-box fa-3x text-muted"></i>
             </div>
             <h4 class="text-muted mb-3">No Products Found</h4>
             <p class="text-muted mb-4">
@@ -195,6 +197,7 @@
 .btn-group .btn {
     border-radius: 0.5rem;
     margin: 0 2px;
+    padding: 0.375rem 0.75rem;
 }
 
 .btn-group .btn:first-child {
@@ -203,6 +206,57 @@
 
 .btn-group .btn:last-child {
     margin-right: 0;
+}
+
+/* Responsive Pagination Styles */
+.pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.pagination .page-link {
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: var(--text-muted);
+    background-color: transparent;
+    border-color: var(--border-color);
+}
+
+/* Mobile responsive pagination */
+@media (max-width: 768px) {
+    .pagination {
+        font-size: 0.8rem;
+    }
+    
+    .pagination .page-link {
+        padding: 0.375rem 0.5rem;
+        min-width: 2.5rem;
+    }
+    
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
 }
 </style>
 @endsection

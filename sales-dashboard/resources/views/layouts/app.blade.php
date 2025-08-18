@@ -328,27 +328,7 @@
             padding: 1rem 1.5rem;
         }
 
-        /* Pagination */
-        .pagination {
-            gap: 0.25rem;
-        }
-
-        .page-link {
-            border-radius: 0.5rem;
-            border: none;
-            padding: 0.5rem 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        .page-link:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .page-item.active .page-link {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-        }
+        /* Pagination - Removed to avoid conflicts with specific page styling */
 
         /* Responsive */
         @media (max-width: 768px) {
