@@ -13,12 +13,12 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="block text-sm font-medium mb-2">Campaign Name</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Campaign Name</label>
                 <input type="text" name="campaign_name" class="w-full px-4 py-2 border rounded-lg" required>
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">Advertiser</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Advertiser</label>
                 <select name="advertiser_id" class="w-full px-4 py-2 border rounded-lg" required>
                     @foreach(\App\Models\Advertiser::where('is_active', true)->get() as $advertiser)
                         <option value="{{ $advertiser->id }}">{{ $advertiser->name }}</option>
@@ -27,12 +27,12 @@
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">Budget Amount</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Budget Amount</label>
                 <input type="number" name="budget_amount" class="w-full px-4 py-2 border rounded-lg" required>
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">Status</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Status</label>
                 <select name="status" class="w-full px-4 py-2 border rounded-lg">
                     <option value="active">Active</option>
                     <option value="paused">Paused</option>
@@ -40,18 +40,18 @@
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">Start Date</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Start Date</label>
                 <input type="date" name="start_date" class="w-full px-4 py-2 border rounded-lg" required>
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">End Date</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">End Date</label>
                 <input type="date" name="end_date" class="w-full px-4 py-2 border rounded-lg" required>
             </div>
         </div>
         
         <div class="mt-6">
-            <label class="block text-sm font-medium mb-2">Description</label>
+            <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Description</label>
             <textarea name="description" rows="3" class="w-full px-4 py-2 border rounded-lg"></textarea>
         </div>
         

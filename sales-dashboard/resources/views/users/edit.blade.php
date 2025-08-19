@@ -14,22 +14,22 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="block text-sm font-medium mb-2">Name</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Name</label>
                 <input type="text" name="name" value="{{ $user->name }}" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">Email</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Email</label>
                 <input type="email" name="email" value="{{ $user->email }}" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">Password (leave blank to keep current)</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Password (leave blank to keep current)</label>
                 <input type="password" name="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
             </div>
             
             <div>
-                <label class="block text-sm font-medium mb-2">Role</label>
+                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Role</label>
                 <select name="role_id" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
                     @foreach(\App\Models\Role::all() as $role)
                         <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
