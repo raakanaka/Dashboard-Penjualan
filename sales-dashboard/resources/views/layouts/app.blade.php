@@ -117,13 +117,16 @@
                     <i class="fas fa-building w-5 h-5 mr-3"></i>
                     <span>Suppliers</span>
                 </a>
+                @endif
                 
                 <!-- Inventory -->
+                @if(auth()->user()->hasPermission('inventory'))
                 <a href="{{ route('inventory.index') }}" 
                    class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('inventory.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-warehouse w-5 h-5 mr-3"></i>
                     <span>Inventory</span>
                 </a>
+                @endif
                 
                 <!-- Reports -->
                 <div class="pt-4 border-t border-white/20">
