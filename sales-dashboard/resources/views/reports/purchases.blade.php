@@ -3,47 +3,47 @@
 @section('title', 'Purchases Report')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">
-        <i class="fas fa-shopping-bag me-2"></i>Purchases Report
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+        <i class="fas fa-shopping-bag mr-2 text-blue-600 dark:text-blue-400"></i>Purchases Report
     </h1>
-    <div class="btn-group" role="group">
-        <button onclick="window.print()" class="btn btn-outline-primary">
-            <i class="fas fa-print me-2"></i>Print Report
+    <div class="flex space-x-2">
+        <button onclick="window.print()" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+            <i class="fas fa-print mr-2"></i>Print Report
         </button>
-        <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        <a href="{{ route('dashboard') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
         </a>
     </div>
 </div>
 
 <!-- Filters -->
-<div class="card mb-4">
-    <div class="card-header bg-white">
-        <h5 class="card-title mb-0">Filters</h5>
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Filters</h5>
     </div>
-    <div class="card-body">
-        <form method="GET" action="{{ route('reports.purchases') }}" class="row g-3">
-            <div class="col-md-3">
-                <label for="start_date" class="form-label">Start Date</label>
-                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+    <div class="p-6">
+        <form method="GET" action="{{ route('reports.purchases') }}" class="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <div>
+                <label for="start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Date</label>
+                <input type="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" id="start_date" name="start_date" value="{{ request('start_date') }}">
             </div>
-            <div class="col-md-3">
-                <label for="end_date" class="form-label">End Date</label>
-                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+            <div>
+                <label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Date</label>
+                <input type="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" id="end_date" name="end_date" value="{{ request('end_date') }}">
             </div>
-            <div class="col-md-2">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status" name="status">
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" id="status" name="status">
                     <option value="">All Status</option>
                     <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <label for="supplier_id" class="form-label">Supplier</label>
-                <select class="form-select" id="supplier_id" name="supplier_id">
+            <div>
+                <label for="supplier_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Supplier</label>
+                <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" id="supplier_id" name="supplier_id">
                     <option value="">All Suppliers</option>
                     @foreach($suppliers as $supplier)
                         <option value="{{ $supplier->id }}" {{ request('supplier_id') == $supplier->id ? 'selected' : '' }}>
@@ -52,98 +52,93 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search me-2"></i>Filter
-                    </button>
-                </div>
+            <div class="flex items-end">
+                <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                    <i class="fas fa-search mr-2"></i>Filter
+                </button>
             </div>
         </form>
     </div>
 </div>
 
 <!-- Summary Cards -->
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card bg-primary text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Total Purchases</h6>
-                        <h4 class="mb-0">{{ number_format($totalPurchases) }}</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-shopping-bag fa-2x"></i>
-                    </div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-sm">
+        <div class="p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-blue-100 text-sm font-medium">Total Purchases</p>
+                    <p class="text-white text-2xl font-bold">{{ number_format($totalPurchases) }}</p>
+                </div>
+                <div class="text-blue-100">
+                    <i class="fas fa-shopping-bag text-3xl"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card bg-success text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Total Spent</h6>
-                        <h4 class="mb-0">Rp {{ number_format($totalAmount, 0, ',', '.') }}</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-money-bill-wave fa-2x"></i>
-                    </div>
+    
+    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-sm">
+        <div class="p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-green-100 text-sm font-medium">Total Spent</p>
+                    <p class="text-white text-2xl font-bold">Rp {{ number_format($totalAmount, 0, ',', '.') }}</p>
+                </div>
+                <div class="text-green-100">
+                    <i class="fas fa-money-bill-wave text-3xl"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card bg-info text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Average Purchase</h6>
-                        <h4 class="mb-0">Rp {{ number_format($avgAmount, 0, ',', '.') }}</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-chart-bar fa-2x"></i>
-                    </div>
+    
+    <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-lg shadow-sm">
+        <div class="p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-cyan-100 text-sm font-medium">Average Purchase</p>
+                    <p class="text-white text-2xl font-bold">Rp {{ number_format($avgAmount, 0, ',', '.') }}</p>
+                </div>
+                <div class="text-cyan-100">
+                    <i class="fas fa-chart-bar text-3xl"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card bg-warning text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Completion Rate</h6>
-                        <h4 class="mb-0">{{ $totalPurchases > 0 ? number_format(($purchases->where('status', 'completed')->count() / $totalPurchases) * 100, 1) : 0 }}%</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-percentage fa-2x"></i>
-                    </div>
+    
+    <div class="bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg shadow-sm">
+        <div class="p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-amber-100 text-sm font-medium">Completion Rate</p>
+                    <p class="text-white text-2xl font-bold">{{ $totalPurchases > 0 ? number_format(($purchases->where('status', 'completed')->count() / $totalPurchases) * 100, 1) : 0 }}%</p>
+                </div>
+                <div class="text-amber-100">
+                    <i class="fas fa-percentage text-3xl"></i>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
     <!-- Purchases by Status -->
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">Purchases by Status</h5>
+    <div class="lg:col-span-1">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Purchases by Status</h5>
             </div>
-            <div class="card-body">
+            <div class="p-6">
                 @foreach($purchasesByStatus as $status)
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-{{ $status->status == 'completed' ? 'success' : ($status->status == 'pending' ? 'warning' : 'danger') }}">
+                <div class="flex justify-between items-center mb-4 last:mb-0">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+                        {{ $status->status == 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 
+                           ($status->status == 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : 
+                            'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200') }}">
                         {{ ucfirst($status->status) }}
                     </span>
-                    <div class="text-end">
-                        <div class="fw-bold">{{ $status->count }}</div>
-                        <small class="text-muted">Rp {{ number_format($status->total, 0, ',', '.') }}</small>
+                    <div class="text-right">
+                        <div class="font-semibold text-gray-900 dark:text-white">{{ $status->count }}</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Rp {{ number_format($status->total, 0, ',', '.') }}</div>
                     </div>
                 </div>
                 @endforeach
@@ -152,29 +147,37 @@
     </div>
 
     <!-- Top Suppliers -->
-    <div class="col-md-8">
-        <div class="card mb-4">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">Top Suppliers</h5>
+    <div class="lg:col-span-2">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Top Suppliers</h5>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-sm">
-                        <thead>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
-                                <th>Supplier</th>
-                                <th>Orders</th>
-                                <th>Total Amount</th>
-                                <th>Average</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Supplier</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Orders</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Total Amount</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Average</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($topSuppliers as $supplier)
-                            <tr>
-                                <td>{{ $supplier->supplier->name }}</td>
-                                <td>{{ $supplier->total_orders }}</td>
-                                <td>Rp {{ number_format($supplier->total_amount, 0, ',', '.') }}</td>
-                                <td>Rp {{ number_format($supplier->total_amount / $supplier->total_orders, 0, ',', '.') }}</td>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ $supplier->supplier->name }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $supplier->total_orders }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    Rp {{ number_format($supplier->total_amount, 0, ',', '.') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    Rp {{ number_format($supplier->total_amount / $supplier->total_orders, 0, ',', '.') }}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -186,70 +189,72 @@
 </div>
 
 <!-- Purchases Details -->
-<div class="card">
-    <div class="card-header bg-white">
-        <h5 class="card-title mb-0">Purchases Details</h5>
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Purchases Details</h5>
     </div>
-    <div class="card-body">
+    <div class="p-6">
         @if($purchases->count() > 0)
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-light">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
-                            <th>Purchase #</th>
-                            <th>Supplier</th>
-                            <th>Date</th>
-                            <th>Items</th>
-                            <th>Total Amount</th>
-                            <th>Status</th>
-                            <th>Payment Method</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Purchase #</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Supplier</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Items</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Total Amount</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Payment Method</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         @foreach($purchases as $purchase)
-                        <tr>
-                            <td>
-                                <strong>{{ $purchase->purchase_number }}</strong>
-                                <br>
-                                <small class="text-muted">ID: {{ $purchase->id }}</small>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $purchase->purchase_number }}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">ID: {{ $purchase->id }}</div>
                             </td>
-                            <td>
-                                <strong>{{ $purchase->supplier->name }}</strong>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $purchase->supplier->name }}</div>
                                 @if($purchase->supplier->contact_person)
-                                    <br>
-                                    <small class="text-muted">{{ $purchase->supplier->contact_person }}</small>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ $purchase->supplier->contact_person }}</div>
                                 @endif
                             </td>
-                            <td>
-                                <div>{{ $purchase->created_at->format('M d, Y') }}</div>
-                                <small class="text-muted">{{ $purchase->created_at->format('H:i') }}</small>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900 dark:text-white">{{ $purchase->created_at->format('M d, Y') }}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $purchase->created_at->format('H:i') }}</div>
                             </td>
-                            <td>
-                                <span class="badge bg-info">{{ $purchase->items->count() }} items</span>
-                                <br>
-                                <small class="text-muted">{{ $purchase->items->sum('quantity') }} units</small>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                    {{ $purchase->items->count() }} items
+                                </span>
+                                <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ $purchase->items->sum('quantity') }} units</div>
                             </td>
-                            <td>
-                                <strong class="text-primary">Rp {{ number_format($purchase->final_amount, 0, ',', '.') }}</strong>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-semibold text-blue-600 dark:text-blue-400">Rp {{ number_format($purchase->final_amount, 0, ',', '.') }}</div>
                             </td>
-                            <td>
-                                <span class="badge bg-{{ $purchase->status == 'completed' ? 'success' : ($purchase->status == 'pending' ? 'warning' : 'danger') }}">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {{ $purchase->status == 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 
+                                       ($purchase->status == 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : 
+                                        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200') }}">
                                     {{ ucfirst($purchase->status) }}
                                 </span>
                             </td>
-                            <td>
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 @switch($purchase->payment_method)
                                     @case('cash')
-                                        <span class="badge bg-success">Cash</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Cash</span>
                                         @break
                                     @case('credit_card')
-                                        <span class="badge bg-info">Credit Card</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Credit Card</span>
                                         @break
                                     @case('bank_transfer')
-                                        <span class="badge bg-warning">Bank Transfer</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Bank Transfer</span>
                                         @break
                                     @default
-                                        <span class="badge bg-secondary">{{ ucfirst($purchase->payment_method) }}</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">{{ ucfirst($purchase->payment_method) }}</span>
                                 @endswitch
                             </td>
                         </tr>
@@ -259,14 +264,14 @@
             </div>
             
             <!-- Pagination -->
-            <div class="d-flex justify-content-center mt-4">
+            <div class="flex justify-center mt-6">
                 {{ $purchases->appends(request()->query())->links() }}
             </div>
         @else
-            <div class="text-center py-5">
-                <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">No purchases found</h5>
-                <p class="text-muted">Try adjusting your filters to see purchase data.</p>
+            <div class="text-center py-12">
+                <i class="fas fa-shopping-bag text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                <h5 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No purchases found</h5>
+                <p class="text-gray-500 dark:text-gray-400">Try adjusting your filters to see purchase data.</p>
             </div>
         @endif
     </div>
