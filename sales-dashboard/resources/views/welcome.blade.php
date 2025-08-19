@@ -32,7 +32,7 @@
 </head>
 <body class="h-full bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
     <!-- Navigation -->
-    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+    <nav class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
@@ -41,6 +41,15 @@
                     </div>
                     <span class="text-xl font-bold text-gray-900 dark:text-white">Sales Dashboard</span>
                 </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Features</a>
+                    <a href="#pricing" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Pricing</a>
+                    <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">About</a>
+                    <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Contact</a>
+                </div>
+                
                 <div class="flex items-center space-x-4">
                     <button id="darkModeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                         <i class="fas fa-moon dark:hidden"></i>
@@ -191,6 +200,220 @@
                         <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i>Instant updates</li>
                         <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i>Alert system</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <div id="pricing" class="py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Simple, Transparent Pricing
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400">
+                    Choose the plan that fits your business needs
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Starter Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 hover:shadow-xl transition-all duration-300">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Starter</h3>
+                        <div class="text-4xl font-bold text-blue-600 mb-2">$29<span class="text-lg text-gray-500">/month</span></div>
+                        <p class="text-gray-600 dark:text-gray-400">Perfect for small businesses</p>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Up to 5 users</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Basic CRM features</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Inventory management</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sales reports</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Email support</li>
+                    </ul>
+                    <a href="{{ route('login') }}" class="w-full inline-flex justify-center items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Professional Plan -->
+                <div class="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl shadow-xl p-8 relative transform scale-105">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-yellow-400 text-yellow-900 px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
+                    </div>
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Professional</h3>
+                        <div class="text-4xl font-bold text-white mb-2">$79<span class="text-lg text-blue-100">/month</span></div>
+                        <p class="text-blue-100">For growing businesses</p>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-white"><i class="fas fa-check text-yellow-400 mr-3"></i>Up to 25 users</li>
+                        <li class="flex items-center text-white"><i class="fas fa-check text-yellow-400 mr-3"></i>Advanced CRM</li>
+                        <li class="flex items-center text-white"><i class="fas fa-check text-yellow-400 mr-3"></i>Multi-role access</li>
+                        <li class="flex items-center text-white"><i class="fas fa-check text-yellow-400 mr-3"></i>Budget tracking</li>
+                        <li class="flex items-center text-white"><i class="fas fa-check text-yellow-400 mr-3"></i>Priority support</li>
+                        <li class="flex items-center text-white"><i class="fas fa-check text-yellow-400 mr-3"></i>API access</li>
+                    </ul>
+                    <a href="{{ route('login') }}" class="w-full inline-flex justify-center items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 hover:shadow-xl transition-all duration-300">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Enterprise</h3>
+                        <div class="text-4xl font-bold text-blue-600 mb-2">$199<span class="text-lg text-gray-500">/month</span></div>
+                        <p class="text-gray-600 dark:text-gray-400">For large organizations</p>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Unlimited users</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Custom integrations</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Advanced analytics</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>White-label options</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>24/7 phone support</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Dedicated account manager</li>
+                    </ul>
+                    <a href="{{ route('login') }}" class="w-full inline-flex justify-center items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="py-24 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+                        Built for Modern Businesses
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                        Our sales dashboard is designed to help businesses of all sizes streamline their operations, 
+                        improve customer relationships, and boost sales performance through intelligent automation and analytics.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 dark:bg-blue-900 rounded-lg p-2 mr-4">
+                                <i class="fas fa-chart-line text-blue-600 dark:text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Data-Driven Insights</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Make informed decisions with real-time analytics and comprehensive reporting.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 dark:bg-green-900 rounded-lg p-2 mr-4">
+                                <i class="fas fa-shield-alt text-green-600 dark:text-green-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Enterprise Security</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Bank-level security with role-based access control and data encryption.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 dark:bg-purple-900 rounded-lg p-2 mr-4">
+                                <i class="fas fa-mobile-alt text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Mobile Ready</h3>
+                                <p class="text-gray-600 dark:text-gray-400">Access your dashboard anywhere with our responsive mobile interface.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold mb-2">10K+</div>
+                                <div class="text-blue-100">Active Users</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold mb-2">99.9%</div>
+                                <div class="text-blue-100">Uptime</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold mb-2">24/7</div>
+                                <div class="text-blue-100">Support</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold mb-2">50+</div>
+                                <div class="text-blue-100">Integrations</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contact" class="py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Get in Touch
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400">
+                    Have questions? We'd love to hear from you.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="bg-blue-100 dark:bg-blue-900 rounded-lg p-3 mr-4">
+                                <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white">Email</h4>
+                                <p class="text-gray-600 dark:text-gray-400">support@salesdashboard.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-green-100 dark:bg-green-900 rounded-lg p-3 mr-4">
+                                <i class="fas fa-phone text-green-600 dark:text-green-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white">Phone</h4>
+                                <p class="text-gray-600 dark:text-gray-400">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-purple-100 dark:bg-purple-900 rounded-lg p-3 mr-4">
+                                <i class="fas fa-map-marker-alt text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white">Address</h4>
+                                <p class="text-gray-600 dark:text-gray-400">123 Business St, Suite 100<br>New York, NY 10001</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Your message"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200">
+                            Send Message
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
