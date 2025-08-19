@@ -222,15 +222,15 @@
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 hover:shadow-xl transition-all duration-300">
                     <div class="text-center mb-8">
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Starter</h3>
-                        <div class="text-4xl font-bold text-blue-600 mb-2">$29<span class="text-lg text-gray-500">/month</span></div>
+                        <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">$29<span class="text-lg text-gray-500 dark:text-gray-400">/month</span></div>
                         <p class="text-gray-600 dark:text-gray-400">Perfect for small businesses</p>
                     </div>
                     <ul class="space-y-4 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Up to 5 users</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Basic CRM features</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Inventory management</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sales reports</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Email support</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Up to 5 users</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Basic CRM features</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Inventory management</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Sales reports</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Email support</li>
                     </ul>
                     <a href="{{ route('login') }}" class="w-full inline-flex justify-center items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                         Get Started
@@ -264,16 +264,16 @@
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 hover:shadow-xl transition-all duration-300">
                     <div class="text-center mb-8">
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Enterprise</h3>
-                        <div class="text-4xl font-bold text-blue-600 mb-2">$199<span class="text-lg text-gray-500">/month</span></div>
+                        <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">$199<span class="text-lg text-gray-500 dark:text-gray-400">/month</span></div>
                         <p class="text-gray-600 dark:text-gray-400">For large organizations</p>
                     </div>
                     <ul class="space-y-4 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Unlimited users</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Custom integrations</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Advanced analytics</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>White-label options</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>24/7 phone support</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Dedicated account manager</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Unlimited users</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Custom integrations</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Advanced analytics</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>White-label options</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>24/7 phone support</li>
+                        <li class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-check text-green-500 mr-3"></i>Dedicated account manager</li>
                     </ul>
                     <a href="{{ route('login') }}" class="w-full inline-flex justify-center items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                         Contact Sales
