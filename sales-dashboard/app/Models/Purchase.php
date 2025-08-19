@@ -11,6 +11,7 @@ class Purchase extends Model
     protected $fillable = [
         'purchase_number',
         'supplier_id',
+        'advertiser_id',
         'total_amount',
         'tax_amount',
         'discount_amount',
@@ -33,6 +34,14 @@ class Purchase extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    /**
+     * Get the advertiser that owns the purchase.
+     */
+    public function advertiser(): BelongsTo
+    {
+        return $this->belongsTo(Advertiser::class);
     }
 
     /**
