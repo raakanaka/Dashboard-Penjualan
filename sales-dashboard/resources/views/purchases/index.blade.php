@@ -3,210 +3,161 @@
 @section('title', 'Purchases')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">
-        <i class="fas fa-shopping-bag me-2"></i>Purchases
-    </h1>
-    <a href="{{ route('purchases.create') }}" class="btn btn-primary">
-        <i class="fas fa-plus me-2"></i>New Purchase
-    </a>
-</div>
-
-@if(session('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-@endif
-
-<div class="card">
-    <div class="card-header bg-white">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h5 class="card-title mb-0">Purchases List</h5>
-            </div>
-            <div class="col-md-6">
-                <form action="{{ route('purchases.index') }}" method="GET" class="d-flex">
-                    <input type="text" name="search" class="form-control me-2" placeholder="Search purchases..." value="{{ request('search') }}">
-                    <button type="submit" class="btn btn-outline-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
+<!-- Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            <i class="fas fa-shopping-bag mr-2"></i>Purchases
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">Manage your purchase transactions</p>
     </div>
-    <div class="card-body">
-        @if($purchases->count() > 0)
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Purchase #</th>
-                            <th>Supplier</th>
-                            <th>Date</th>
-                            <th>Total Amount</th>
-                            <th>Payment Method</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($purchases as $purchase)
-                        <tr>
-                            <td>
-                                <strong>{{ $purchase->purchase_number }}</strong>
-                                <br>
-                                <small class="text-muted">ID: {{ $purchase->id }}</small>
-                            </td>
-                            <td>
-                                <strong>{{ $purchase->supplier->name }}</strong>
-                                @if($purchase->supplier->contact_person)
-                                    <br>
-                                    <small class="text-muted">{{ $purchase->supplier->contact_person }}</small>
-                                @endif
-                            </td>
-                            <td>
-                                <div>{{ $purchase->created_at->format('M d, Y') }}</div>
-                                <small class="text-muted">{{ $purchase->created_at->format('H:i') }}</small>
-                            </td>
-                            <td>
-                                <strong class="text-primary">Rp {{ number_format($purchase->final_amount, 0, ',', '.') }}</strong>
-                                @if($purchase->discount_amount > 0)
-                                    <br>
-                                    <small class="text-success">-Rp {{ number_format($purchase->discount_amount, 0, ',', '.') }}</small>
-                                @endif
-                            </td>
-                            <td>
-                                @switch($purchase->payment_method)
-                                    @case('cash')
-                                        <span class="badge bg-success">Cash</span>
-                                        @break
-                                    @case('credit_card')
-                                        <span class="badge bg-info">Credit Card</span>
-                                        @break
-                                    @case('bank_transfer')
-                                        <span class="badge bg-warning">Bank Transfer</span>
-                                        @break
-                                    @default
-                                        <span class="badge bg-secondary">{{ ucfirst($purchase->payment_method) }}</span>
-                                @endswitch
-                            </td>
-                            <td>
-                                @switch($purchase->status)
-                                    @case('completed')
-                                        <span class="badge bg-success">Completed</span>
-                                        @break
-                                    @case('pending')
-                                        <span class="badge bg-warning">Pending</span>
-                                        @break
-                                    @case('cancelled')
-                                        <span class="badge bg-danger">Cancelled</span>
-                                        @break
-                                    @default
-                                        <span class="badge bg-secondary">{{ ucfirst($purchase->status) }}</span>
-                                @endswitch
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a href="{{ route('purchases.show', $purchase) }}" class="btn btn-sm btn-outline-info" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('purchases.edit', $purchase) }}" class="btn btn-sm btn-outline-warning" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('purchases.destroy', $purchase) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this purchase?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    <div class="mt-4 sm:mt-0">
+        <a href="{{ route('purchases.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+            <i class="fas fa-plus mr-2"></i>New Purchase
+        </a>
+    </div>
+</div>
+
+<!-- Search -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
+    <div class="p-6">
+        <form action="{{ route('purchases.index') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-1">
+                <input type="text" name="search" 
+                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" 
+                       placeholder="Search purchases by number, supplier..." 
+                       value="{{ request('search') }}">
             </div>
-            
-            <!-- Pagination -->
-            <div class="d-flex justify-content-center mt-4">
-                {{ $purchases->links() }}
-            </div>
-        @else
-            <div class="text-center py-5">
-                <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">No purchases found</h5>
-                <p class="text-muted">Start by creating your first purchase.</p>
-                <a href="{{ route('purchases.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>New Purchase
-                </a>
+            <button type="submit" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200">
+                <i class="fas fa-search mr-2"></i>Search
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Purchases Table -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    @if($purchases->count() > 0)
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Purchase #</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Supplier</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Total Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Payment Method</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    @foreach($purchases as $purchase)
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $purchase->purchase_number }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">ID: {{ $purchase->id }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $purchase->supplier->name }}</div>
+                            @if($purchase->supplier->contact_person)
+                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $purchase->supplier->contact_person }}</div>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 dark:text-white">{{ $purchase->created_at->format('M d, Y') }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $purchase->created_at->format('H:i') }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-blue-600 dark:text-blue-400">Rp {{ number_format($purchase->final_amount, 0, ',', '.') }}</div>
+                            @if($purchase->discount_amount > 0)
+                                <div class="text-sm text-green-600 dark:text-green-400">-Rp {{ number_format($purchase->discount_amount, 0, ',', '.') }}</div>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @switch($purchase->payment_method)
+                                @case('cash')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Cash</span>
+                                    @break
+                                @case('credit_card')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Credit Card</span>
+                                    @break
+                                @case('bank_transfer')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Bank Transfer</span>
+                                    @break
+                                @default
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">{{ ucfirst($purchase->payment_method) }}</span>
+                            @endswitch
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @switch($purchase->status)
+                                @case('completed')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Completed</span>
+                                    @break
+                                @case('pending')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Pending</span>
+                                    @break
+                                @case('cancelled')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Cancelled</span>
+                                    @break
+                                @default
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">{{ ucfirst($purchase->status) }}</span>
+                            @endswitch
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <a href="{{ route('purchases.show', $purchase) }}" 
+                                   class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300" 
+                                   title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('purchases.edit', $purchase) }}" 
+                                   class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300" 
+                                   title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('purchases.destroy', $purchase) }}" method="POST" class="inline" 
+                                      onsubmit="return confirm('Are you sure you want to delete this purchase?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" 
+                                            title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        @if($purchases->hasPages())
+            <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                {{ $purchases->appends(request()->query())->links('pagination::tailwind') }}
             </div>
         @endif
-    </div>
-</div>
-
-<!-- Summary Cards -->
-<div class="row mt-4">
-    <div class="col-md-3">
-        <div class="card bg-primary text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Total Purchases</h6>
-                        <h4 class="mb-0">{{ $purchases->total() }}</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-shopping-bag fa-2x"></i>
-                    </div>
-                </div>
+    @else
+        <!-- Empty State -->
+        <div class="text-center py-12">
+            <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                <i class="fas fa-shopping-bag text-gray-400 text-3xl"></i>
             </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No purchases found</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6">
+                @if(request('search'))
+                    Try adjusting your search criteria.
+                @else
+                    Get started by creating your first purchase.
+                @endif
+            </p>
+            <a href="{{ route('purchases.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+                <i class="fas fa-plus mr-2"></i>Create Purchase
+            </a>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-success text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Today's Purchases</h6>
-                        <h4 class="mb-0">{{ $purchases->where('created_at', '>=', now()->startOfDay())->count() }}</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-calendar-day fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-info text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Total Spent</h6>
-                        <h4 class="mb-0">Rp {{ number_format($purchases->sum('final_amount'), 0, ',', '.') }}</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-money-bill-wave fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-warning text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="card-title">Avg. Purchase Value</h6>
-                        <h4 class="mb-0">Rp {{ $purchases->count() > 0 ? number_format($purchases->avg('final_amount'), 0, ',', '.') : '0' }}</h4>
-                    </div>
-                    <div class="align-self-center">
-                        <i class="fas fa-chart-line fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @endif
 </div>
 @endsection
