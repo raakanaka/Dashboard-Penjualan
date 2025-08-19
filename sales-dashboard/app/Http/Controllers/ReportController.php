@@ -44,6 +44,7 @@ class ReportController extends Controller
         // Calculate summary
         $totalSales = $query->count();
         $totalAmount = $query->sum('final_amount');
+        $totalDiscount = $query->sum('discount_amount');
         $avgAmount = $totalSales > 0 ? $totalAmount / $totalSales : 0;
 
         // Sales by status
@@ -64,6 +65,7 @@ class ReportController extends Controller
             'customers',
             'totalSales',
             'totalAmount',
+            'totalDiscount',
             'avgAmount',
             'salesByStatus',
             'topCustomers'
