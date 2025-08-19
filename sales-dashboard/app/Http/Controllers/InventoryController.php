@@ -15,21 +15,18 @@ class InventoryController extends Controller
     public function index()
     {
         $products = Product::with('category')
-            ->orderBy('stock', 'asc')
+            ->orderBy('stock_quantity', 'asc')
             ->paginate(15);
 
         // Calculate summary statistics
         $totalProducts = Product::count();
-        $totalStock = Product::sum('stock');
-        $totalValue = Product::sum(DB::raw('stock * price'));
-        $lowStockProducts = Product::whereRaw('stock <= min_stock')->count();
-        $outOfStockProducts = Product::where('stock', 0)->count();
+        $totalStock = Product::sum('stock_quantity');
+        $totalValue = Product::sum(DB::raw('stock_quantity * selling_price'));
+        $lowStockProducts = Product::whereRaw('stock_quantity <= reorder_level')->count();
+        $outOfStockProducts = Product::where('stock_quantity', 0)->count();
 
-        // Stock by category
-        $stockByCategory = Product::with('category')
-            ->select('category_id', DB::raw('count(*) as total_products'), DB::raw('sum(stock) as total_stock'))
-            ->groupBy('category_id')
-            ->get();
+        // Get categories for filter
+        $categories = Category::where('is_active', true)->get();
 
         return view('inventory.index', compact(
             'products',
@@ -38,7 +35,7 @@ class InventoryController extends Controller
             'totalValue',
             'lowStockProducts',
             'outOfStockProducts',
-            'stockByCategory'
+            'categories'
         ));
     }
 

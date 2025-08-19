@@ -11,20 +11,20 @@ class Product extends Model
         'name',
         'description',
         'sku',
-        'price',
+        'selling_price',
         'cost_price',
-        'stock',
-        'min_stock',
+        'stock_quantity',
+        'reorder_level',
         'category_id',
         'image',
         'is_active'
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
+        'selling_price' => 'decimal:2',
         'cost_price' => 'decimal:2',
-        'stock' => 'integer',
-        'min_stock' => 'integer',
+        'stock_quantity' => 'integer',
+        'reorder_level' => 'integer',
         'is_active' => 'boolean',
     ];
 
@@ -65,7 +65,7 @@ class Product extends Model
      */
     public function scopeLowStock($query)
     {
-        return $query->whereRaw('stock <= min_stock');
+        return $query->whereRaw('stock_quantity <= reorder_level');
     }
 
     /**
@@ -73,7 +73,7 @@ class Product extends Model
      */
     public function scopeOutOfStock($query)
     {
-        return $query->where('stock', 0);
+        return $query->where('stock_quantity', 0);
     }
 
     /**
@@ -81,9 +81,9 @@ class Product extends Model
      */
     public function getStockStatusAttribute()
     {
-        if ($this->stock == 0) {
+        if ($this->stock_quantity == 0) {
             return 'out_of_stock';
-        } elseif ($this->stock <= $this->min_stock) {
+        } elseif ($this->stock_quantity <= $this->reorder_level) {
             return 'low_stock';
         } else {
             return 'available';
