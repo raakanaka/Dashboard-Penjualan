@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
             // Purchase statistics
             $totalPurchaseAmount = Purchase::where('status', 'completed')->sum('final_amount');
-            $todayPurchases = Purchase::whereDate('created_at', Carbon::today())
+            $todayPurchases = Purchase::whereRaw('date(created_at) = ?', [Carbon::today()->format('Y-m-d')])
                 ->where('status', 'completed')
                 ->sum('final_amount');
             $thisMonthPurchases = Purchase::whereRaw('strftime("%m", created_at) = ? AND strftime("%Y", created_at) = ?', [
@@ -99,7 +99,7 @@ class DashboardController extends Controller
             $salesTrendData = [];
             for ($i = 6; $i >= 0; $i--) {
                 $date = Carbon::now()->subDays($i);
-                $salesAmount = Sale::whereDate('created_at', $date)
+                $salesAmount = Sale::whereRaw('date(created_at) = ?', [$date->format('Y-m-d')])
                     ->where('status', 'completed')
                     ->sum('final_amount');
                 
@@ -111,7 +111,7 @@ class DashboardController extends Controller
             $salesChartData = [];
             for ($i = 6; $i >= 0; $i--) {
                 $date = Carbon::now()->subDays($i);
-                $salesAmount = Sale::whereDate('created_at', $date)
+                $salesAmount = Sale::whereRaw('date(created_at) = ?', [$date->format('Y-m-d')])
                     ->where('status', 'completed')
                     ->sum('final_amount');
                 
