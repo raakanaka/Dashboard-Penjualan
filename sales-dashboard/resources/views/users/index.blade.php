@@ -3,11 +3,11 @@
 @section('title', 'Users Management')
 
 @section('content')
-<div class="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg shadow-lg mb-6 p-6">
+<div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg mb-6 p-6">
     <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-white">Users Management</h1>
-        <a href="{{ route('users.create') }}" class="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg">
-            Add User
+        <a href="{{ route('users.create') }}" class="px-6 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors duration-200">
+            <i class="fas fa-plus mr-2"></i>Add User
         </a>
     </div>
 </div>
@@ -36,14 +36,20 @@
                         {{ $user->role->display_name ?? 'No Role' }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div class="flex space-x-2">
-                            <a href="{{ route('users.show', $user) }}" class="text-blue-600 hover:text-blue-900">View</a>
-                            <a href="{{ route('users.edit', $user) }}" class="text-yellow-600 hover:text-yellow-900">Edit</a>
+                        <div class="flex space-x-3">
+                            <a href="{{ route('users.show', $user) }}" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200">
+                                <i class="fas fa-eye mr-1"></i>View
+                            </a>
+                            <a href="{{ route('users.edit', $user) }}" class="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 transition-colors duration-200">
+                                <i class="fas fa-edit mr-1"></i>Edit
+                            </a>
                             @if($user->id !== auth()->id())
                             <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure?')">Delete</button>
+                                <button type="submit" class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200" onclick="return confirm('Are you sure you want to delete this user?')">
+                                    <i class="fas fa-trash mr-1"></i>Delete
+                                </button>
                             </form>
                             @endif
                         </div>

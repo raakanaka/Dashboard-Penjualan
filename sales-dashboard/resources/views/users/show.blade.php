@@ -3,7 +3,7 @@
 @section('title', 'User Details')
 
 @section('content')
-<div class="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg shadow-lg mb-6 p-6">
+<div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg mb-6 p-6">
     <h1 class="text-3xl font-bold text-white">{{ $user->name }}</h1>
 </div>
 
@@ -31,8 +31,12 @@
     </div>
     
     <div class="mt-6 flex space-x-4">
-        <a href="{{ route('users.edit', $user) }}" class="px-6 py-2 bg-indigo-600 text-white rounded-lg">Edit User</a>
-        <a href="{{ route('users.index') }}" class="px-6 py-2 bg-gray-500 text-white rounded-lg">Back to Users</a>
+        <a href="{{ route('users.edit', $user) }}" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200">
+            <i class="fas fa-edit mr-2"></i>Edit User
+        </a>
+        <a href="{{ route('users.index') }}" class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Users
+        </a>
     </div>
 </div>
 @endsection

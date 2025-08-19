@@ -3,7 +3,7 @@
 @section('title', 'Edit User')
 
 @section('content')
-<div class="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg shadow-lg mb-6 p-6">
+<div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg mb-6 p-6">
     <h1 class="text-3xl font-bold text-white">Edit User</h1>
 </div>
 
@@ -15,7 +15,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-medium mb-2">Name</label>
-                <input type="text" name="name" value="{{ $user->name }}" class="w-full px-4 py-2 border rounded-lg" required>
+                <input type="text" name="name" value="{{ $user->name }}" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
             </div>
             
             <div>
@@ -41,8 +41,12 @@
         </div>
         
         <div class="mt-6 flex justify-end space-x-4">
-            <a href="{{ route('users.index') }}" class="px-6 py-2 bg-gray-500 text-white rounded-lg">Cancel</a>
-            <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg">Update User</button>
+            <a href="{{ route('users.index') }}" class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200">
+                <i class="fas fa-times mr-2"></i>Cancel
+            </a>
+            <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200">
+                <i class="fas fa-save mr-2"></i>Update User
+            </button>
         </div>
     </form>
 </div>
