@@ -46,15 +46,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="h-full bg-gray-50 dark:bg-gray-900 font-inter transition-colors duration-300">
-    <!-- Dark Mode Toggle -->
-    <button id="darkModeToggle" class="dark-mode-toggle">
-        <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
-        <i class="fas fa-moon text-blue-300 hidden dark:block"></i>
-    </button>
-
     <div class="flex h-full">
         <!-- Sidebar -->
-        <nav id="sidebar" class="sidebar fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0">
+        <nav id="sidebar" class="sidebar fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 bg-gradient-to-b from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 shadow-xl">
             <!-- Sidebar Header -->
             <div class="flex items-center justify-between h-16 px-6 bg-white/10 backdrop-blur-sm border-b border-white/20">
                 <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 text-white font-semibold text-lg">
@@ -70,49 +64,49 @@
             <div class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
                 <!-- Dashboard -->
                 <a href="{{ route('dashboard') }}" 
-                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('dashboard') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-tachometer-alt w-5 h-5 mr-3"></i>
                     <span>Dashboard</span>
                 </a>
                 
                 <!-- Products -->
                 <a href="{{ route('products.index') }}" 
-                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('products.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-box w-5 h-5 mr-3"></i>
                     <span>Products</span>
                 </a>
                 
                 <!-- Sales -->
                 <a href="{{ route('sales.index') }}" 
-                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 {{ request()->routeIs('sales.*') ? 'active' : '' }}">
+                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('sales.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
                     <span>Sales</span>
                 </a>
                 
                 <!-- Purchases -->
                 <a href="{{ route('purchases.index') }}" 
-                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 {{ request()->routeIs('purchases.*') ? 'active' : '' }}">
+                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('purchases.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-truck w-5 h-5 mr-3"></i>
                     <span>Purchases</span>
                 </a>
                 
                 <!-- Customers -->
                 <a href="{{ route('customers.index') }}" 
-                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 {{ request()->routeIs('customers.*') ? 'active' : '' }}">
+                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('customers.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-users w-5 h-5 mr-3"></i>
                     <span>Customers</span>
                 </a>
                 
                 <!-- Suppliers -->
                 <a href="{{ route('suppliers.index') }}" 
-                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
+                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('suppliers.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-building w-5 h-5 mr-3"></i>
                     <span>Suppliers</span>
                 </a>
                 
                 <!-- Inventory -->
                 <a href="{{ route('inventory.index') }}" 
-                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 {{ request()->routeIs('inventory.*') ? 'active' : '' }}">
+                   class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('inventory.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-warehouse w-5 h-5 mr-3"></i>
                     <span>Inventory</span>
                 </a>
@@ -122,17 +116,17 @@
                     <h3 class="px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Reports</h3>
                     <div class="mt-2 space-y-1">
                         <a href="{{ route('reports.sales') }}" 
-                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 {{ request()->routeIs('reports.sales') ? 'active' : '' }}">
+                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('reports.sales') ? 'bg-white/20 shadow-lg' : '' }}">
                             <i class="fas fa-chart-bar w-4 h-4 mr-3"></i>
                             <span class="text-sm">Sales Report</span>
                         </a>
                         <a href="{{ route('reports.purchases') }}" 
-                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 {{ request()->routeIs('reports.purchases') ? 'active' : '' }}">
+                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('reports.purchases') ? 'bg-white/20 shadow-lg' : '' }}">
                             <i class="fas fa-chart-line w-4 h-4 mr-3"></i>
                             <span class="text-sm">Purchase Report</span>
                         </a>
                         <a href="{{ route('reports.inventory') }}" 
-                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 {{ request()->routeIs('reports.inventory') ? 'active' : '' }}">
+                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('reports.inventory') ? 'bg-white/20 shadow-lg' : '' }}">
                             <i class="fas fa-chart-pie w-4 h-4 mr-3"></i>
                             <span class="text-sm">Inventory Report</span>
                         </a>
@@ -154,19 +148,25 @@
                     </div>
                     
                     <div class="flex items-center space-x-4">
+                        <!-- Dark Mode Toggle -->
+                        <button id="darkModeToggle" class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
+                            <i class="fas fa-sun text-yellow-500 dark:hidden text-lg"></i>
+                            <i class="fas fa-moon text-blue-300 hidden dark:block text-lg"></i>
+                        </button>
+                        
                         <!-- Notifications -->
-                        <button class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                        <button class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
                             <i class="fas fa-bell text-xl"></i>
                             <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400"></span>
                         </button>
                         
                         <!-- User Menu -->
                         <div class="relative">
-                            <button class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                            <button class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm">
                                     <i class="fas fa-user text-white text-sm"></i>
                                 </div>
-                                <span class="hidden md:block">Admin</span>
+                                <span class="hidden md:block font-medium">Admin</span>
                                 <i class="fas fa-chevron-down text-xs"></i>
                             </button>
                         </div>
@@ -178,7 +178,7 @@
             <main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
                 <div class="container mx-auto px-6 py-8">
                     @if(session('success'))
-                        <div class="mb-6 bg-green-100 dark:bg-green-900 border border-green-400 text-green-700 dark:text-green-300 px-4 py-3 rounded-lg">
+                        <div class="mb-6 bg-green-100 dark:bg-green-900/50 border border-green-400 text-green-700 dark:text-green-300 px-4 py-3 rounded-lg shadow-sm">
                             <div class="flex items-center">
                                 <i class="fas fa-check-circle mr-2"></i>
                                 {{ session('success') }}
@@ -187,7 +187,7 @@
                     @endif
 
                     @if(session('error'))
-                        <div class="mb-6 bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg">
+                        <div class="mb-6 bg-red-100 dark:bg-red-900/50 border border-red-400 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg shadow-sm">
                             <div class="flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
                                 {{ session('error') }}
@@ -219,6 +219,12 @@
         darkModeToggle.addEventListener('click', () => {
             html.classList.toggle('dark');
             localStorage.setItem('darkMode', html.classList.contains('dark'));
+            
+            // Add visual feedback
+            darkModeToggle.classList.add('scale-110');
+            setTimeout(() => {
+                darkModeToggle.classList.remove('scale-110');
+            }, 150);
         });
         
         // Sidebar Toggle
