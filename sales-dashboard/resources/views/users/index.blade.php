@@ -1,0 +1,1 @@
+@extends("layouts.app") @section("title", "Users") @section("content") <div class="p-6"><h1>Users Management</h1><a href="{{ route("users.create") }}" class="bg-blue-500 text-white px-4 py-2 rounded">Add User</a></div> @endsection

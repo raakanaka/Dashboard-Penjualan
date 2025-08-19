@@ -1,0 +1,1 @@
+@extends("layouts.app") @section("title", "Edit Budget") @section("content") <div class="p-6"><h1>Edit Budget</h1><form method="POST" action="{{ route("budgets.update", $budget) }}">@csrf @method("PUT") <input name="campaign_name" value="{{ $budget->campaign_name }}" required> <button type="submit">Update</button></form></div> @endsection

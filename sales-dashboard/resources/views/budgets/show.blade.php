@@ -1,0 +1,1 @@
+@extends("layouts.app") @section("title", "Budget Details") @section("content") <div class="p-6"><h1>{{ $budget->campaign_name }}</h1><p>Budget: Rp {{ number_format($budget->budget_amount) }}</p><p>Spent: Rp {{ number_format($budget->spent_amount) }}</p></div> @endsection
