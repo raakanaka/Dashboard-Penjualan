@@ -11,7 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::table('products', function (Blueprint $table) {
+            // Rename columns to match new naming convention
+            $table->renameColumn('price', 'selling_price');
+            $table->renameColumn('stock', 'stock_quantity');
+            $table->renameColumn('min_stock', 'reorder_level');
+        });
     }
 
     /**
@@ -19,6 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('products', function (Blueprint $table) {
+            // Reverse the column renames
+            $table->renameColumn('selling_price', 'price');
+            $table->renameColumn('stock_quantity', 'stock');
+            $table->renameColumn('reorder_level', 'min_stock');
+        });
     }
 };

@@ -169,19 +169,27 @@ class InventoryController extends Controller
     }
 
     /**
+     * Show the form for adjusting stock.
+     */
+    public function adjustStock(Product $product)
+    {
+        return view('inventory.adjust-stock', compact('product'));
+    }
+
+    /**
      * Update stock manually.
      */
     public function updateStock(Request $request, Product $product)
     {
         $request->validate([
-            'stock' => 'required|integer|min:0',
+            'stock_quantity' => 'required|integer|min:0',
             'reason' => 'required|string|max:255',
         ]);
 
-        $oldStock = $product->stock;
-        $newStock = $request->stock;
+        $oldStock = $product->stock_quantity;
+        $newStock = $request->stock_quantity;
         
-        $product->update(['stock' => $newStock]);
+        $product->update(['stock_quantity' => $newStock]);
 
         // Log the stock adjustment
         // You can add a stock adjustment log table here if needed

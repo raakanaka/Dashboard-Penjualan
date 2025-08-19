@@ -47,6 +47,8 @@ Route::resource('suppliers', SupplierController::class);
 // Inventory
 Route::resource('inventory', InventoryController::class);
 Route::get('/inventory/stock-alert', [InventoryController::class, 'stockAlert'])->name('inventory.stock-alert');
+Route::get('/inventory/{inventory}/adjust-stock', [InventoryController::class, 'adjustStock'])->name('inventory.adjust-stock');
+Route::post('/inventory/{inventory}/adjust-stock', [InventoryController::class, 'updateStock'])->name('inventory.update-stock');
 
 // Reports
 Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
