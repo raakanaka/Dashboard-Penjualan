@@ -27,11 +27,13 @@ class DashboardController extends Controller
             // Sales statistics
             $totalSalesAmount = Sale::where('status', 'completed')->sum('final_amount');
             $totalRevenue = $totalSalesAmount; // Alias for consistency
-            $todaySales = Sale::whereDate('created_at', Carbon::today())
+            $todaySales = Sale::whereRaw('date(created_at) = ?', [Carbon::today()->format('Y-m-d')])
                 ->where('status', 'completed')
                 ->sum('final_amount');
-            $thisMonthSales = Sale::whereMonth('created_at', Carbon::now()->month)
-                ->whereYear('created_at', Carbon::now()->year)
+            $thisMonthSales = Sale::whereRaw('strftime("%m", created_at) = ? AND strftime("%Y", created_at) = ?', [
+                Carbon::now()->format('m'),
+                Carbon::now()->format('Y')
+            ])
                 ->where('status', 'completed')
                 ->sum('final_amount');
 
@@ -40,8 +42,10 @@ class DashboardController extends Controller
             $todayPurchases = Purchase::whereDate('created_at', Carbon::today())
                 ->where('status', 'completed')
                 ->sum('final_amount');
-            $thisMonthPurchases = Purchase::whereMonth('created_at', Carbon::now()->month)
-                ->whereYear('created_at', Carbon::now()->year)
+            $thisMonthPurchases = Purchase::whereRaw('strftime("%m", created_at) = ? AND strftime("%Y", created_at) = ?', [
+                Carbon::now()->format('m'),
+                Carbon::now()->format('Y')
+            ])
                 ->where('status', 'completed')
                 ->sum('final_amount');
 

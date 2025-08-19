@@ -22,11 +22,11 @@ class CRMController extends Controller
         // Customer Analytics
         $totalCustomers = Customer::count();
         $activeCustomers = Customer::where('is_active', true)->count();
-        $newCustomersThisMonth = Customer::whereMonth('created_at', Carbon::now()->month)->count();
+        $newCustomersThisMonth = Customer::whereRaw('strftime("%m", created_at) = ?', [Carbon::now()->format('m')])->count();
         
         // Sales Analytics
         $totalSales = Sale::sum('total_amount');
-        $salesThisMonth = Sale::whereMonth('created_at', Carbon::now()->month)->sum('total_amount');
+        $salesThisMonth = Sale::whereRaw('strftime("%m", created_at) = ?', [Carbon::now()->format('m')])->sum('total_amount');
         $averageOrderValue = Sale::avg('total_amount');
         
         // Top Customers by Revenue
@@ -48,12 +48,12 @@ class CRMController extends Controller
         
         // Monthly Sales Trend
         $monthlySales = Sale::select(
-                DB::raw('MONTH(created_at) as month'),
-                DB::raw('YEAR(created_at) as year'),
+                DB::raw('strftime("%m", created_at) as month'),
+                DB::raw('strftime("%Y", created_at) as year'),
                 DB::raw('SUM(total_amount) as total'),
                 DB::raw('COUNT(*) as count')
             )
-            ->whereYear('created_at', Carbon::now()->year)
+            ->whereRaw('strftime("%Y", created_at) = ?', [Carbon::now()->year])
             ->groupBy('year', 'month')
             ->orderBy('year', 'desc')
             ->orderBy('month', 'desc')
@@ -148,7 +148,7 @@ class CRMController extends Controller
                 $query->where('created_at', '>=', Carbon::now()->subDays(30));
             })->count(),
             'negotiations' => Sale::where('status', 'pending')->count(),
-            'closed_won' => Sale::where('status', 'completed')->whereMonth('created_at', Carbon::now()->month)->count(),
+            'closed_won' => Sale::where('status', 'completed')->whereRaw('strftime("%m", created_at) = ?', [Carbon::now()->format('m')])->count(),
         ];
     }
 
