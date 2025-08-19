@@ -4,29 +4,24 @@
 
 @section('content')
 <!-- Welcome Section -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body p-4">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h2 class="mb-2" style="color: var(--text-primary); font-weight: 600;">
-                            Welcome back! 👋
-                        </h2>
-                        <p class="text-muted mb-0" style="font-size: 1.1rem;">
-                            Here's what's happening with your business today.
+<div class="mb-8">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                        Welcome back, Admin! 👋
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        Here's what's happening with your business today.
+                    </p>
+                </div>
+                <div class="hidden md:block">
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Today's Date</p>
+                        <p class="text-lg font-semibold text-gray-900 dark:text-white">
+                            {{ now()->format('l, F j, Y') }}
                         </p>
-                    </div>
-                    <div class="col-md-4 text-md-end">
-                        <div class="d-flex align-items-center justify-content-md-end gap-3">
-                            <div class="text-end">
-                                <div class="text-muted small">Today's Date</div>
-                                <div class="fw-semibold">{{ now()->format('l, F j, Y') }}</div>
-                            </div>
-                            <div class="user-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -35,74 +30,78 @@
 </div>
 
 <!-- Key Metrics -->
-<div class="row mb-4">
-    <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card primary">
-            <div class="d-flex justify-content-between align-items-center">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Sales -->
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
                 <div>
-                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Total Sales</div>
-                    <div class="h3 mb-0 text-white fw-bold">{{ number_format($totalSales) }}</div>
-                    <div class="text-white-50 small mt-1">
-                        <i class="fas fa-arrow-up me-1"></i>
-                        +{{ number_format($totalSales * 0.12) }} this month
-                    </div>
+                    <p class="text-blue-100 text-sm font-medium mb-1">Total Sales</p>
+                    <p class="text-3xl font-bold text-white">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
+                    <p class="text-blue-100 text-sm mt-1">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        +{{ number_format($thisMonthSales > 0 ? (($thisMonthSales / $totalRevenue) * 100) : 0, 1) }}% this month
+                    </p>
                 </div>
-                <div class="stat-icon">
-                    <i class="fas fa-shopping-cart"></i>
+                <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chart-line text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card success">
-            <div class="d-flex justify-content-between align-items-center">
+
+    <!-- Revenue -->
+    <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
                 <div>
-                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Revenue</div>
-                    <div class="h3 mb-0 text-white fw-bold">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</div>
-                    <div class="text-white-50 small mt-1">
-                        <i class="fas fa-arrow-up me-1"></i>
+                    <p class="text-green-100 text-sm font-medium mb-1">Revenue</p>
+                    <p class="text-3xl font-bold text-white">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
+                    <p class="text-green-100 text-sm mt-1">
+                        <i class="fas fa-arrow-up mr-1"></i>
                         +15.3% this month
-                    </div>
+                    </p>
                 </div>
-                <div class="stat-icon">
-                    <i class="fas fa-dollar-sign"></i>
+                <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-dollar-sign text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card info">
-            <div class="d-flex justify-content-between align-items-center">
+
+    <!-- Products -->
+    <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl shadow-lg">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
                 <div>
-                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Products</div>
-                    <div class="h3 mb-0 text-white fw-bold">{{ number_format($totalProducts) }}</div>
-                    <div class="text-white-50 small mt-1">
-                        <i class="fas fa-box me-1"></i>
+                    <p class="text-indigo-100 text-sm font-medium mb-1">Products</p>
+                    <p class="text-3xl font-bold text-white">{{ number_format($totalProducts) }}</p>
+                    <p class="text-indigo-100 text-sm mt-1">
+                        <i class="fas fa-box mr-1"></i>
                         {{ number_format($lowStockProducts) }} low stock
-                    </div>
+                    </p>
                 </div>
-                <div class="stat-icon">
-                    <i class="fas fa-boxes"></i>
+                <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-boxes text-white text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card warning">
-            <div class="d-flex justify-content-between align-items-center">
+
+    <!-- Customers -->
+    <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
                 <div>
-                    <div class="text-white-50 mb-1" style="font-size: 0.875rem; font-weight: 500;">Customers</div>
-                    <div class="h3 mb-0 text-white fw-bold">{{ number_format($totalCustomers) }}</div>
-                    <div class="text-white-50 small mt-1">
-                        <i class="fas fa-users me-1"></i>
+                    <p class="text-orange-100 text-sm font-medium mb-1">Customers</p>
+                    <p class="text-3xl font-bold text-white">{{ number_format($totalCustomers) }}</p>
+                    <p class="text-orange-100 text-sm mt-1">
+                        <i class="fas fa-users mr-1"></i>
                         +{{ number_format($totalCustomers * 0.08) }} new this month
-                    </div>
+                    </p>
                 </div>
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
+                <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-users text-white text-xl"></i>
                 </div>
             </div>
         </div>
@@ -110,75 +109,71 @@
 </div>
 
 <!-- Charts and Analytics -->
-<div class="row mb-4">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
     <!-- Sales Trend Chart -->
-    <div class="col-xl-8 mb-4">
-        <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-chart-line me-2 text-primary"></i>
+    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    <i class="fas fa-chart-line text-blue-500 mr-2"></i>
                     Sales Trend
-                </h5>
-                <div class="btn-group btn-group-sm" role="group">
-                    <button type="button" class="btn btn-outline-primary active">7 Days</button>
-                    <button type="button" class="btn btn-outline-primary">30 Days</button>
-                    <button type="button" class="btn btn-outline-primary">90 Days</button>
+                </h3>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg">7 Days</button>
+                    <button class="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg">30 Days</button>
+                    <button class="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg">90 Days</button>
                 </div>
             </div>
-            <div class="card-body">
-                <canvas id="salesChart" height="100"></canvas>
+            <div class="h-64">
+                <canvas id="salesChart"></canvas>
             </div>
         </div>
     </div>
     
     <!-- Quick Stats -->
-    <div class="col-xl-4 mb-4">
-        <div class="card h-100">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-chart-pie me-2 text-primary"></i>
-                    Quick Stats
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="d-flex flex-column gap-3">
-                    <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background: var(--light-bg);">
-                        <div>
-                            <div class="fw-semibold text-primary">Average Order Value</div>
-                            <div class="text-muted small">Last 30 days</div>
-                        </div>
-                        <div class="text-end">
-                            <div class="h5 mb-0 fw-bold">Rp {{ number_format($avgOrderValue, 0, ',', '.') }}</div>
-                            <div class="text-success small">
-                                <i class="fas fa-arrow-up me-1"></i>+8.2%
-                            </div>
-                        </div>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+                <i class="fas fa-chart-pie text-blue-500 mr-2"></i>
+                Quick Stats
+            </h3>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div>
+                        <p class="font-semibold text-blue-600 dark:text-blue-400">Average Order Value</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Last 30 days</p>
                     </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background: var(--light-bg);">
-                        <div>
-                            <div class="fw-semibold text-success">Conversion Rate</div>
-                            <div class="text-muted small">Sales to visits</div>
-                        </div>
-                        <div class="text-end">
-                            <div class="h5 mb-0 fw-bold">{{ number_format($conversionRate, 1) }}%</div>
-                            <div class="text-success small">
-                                <i class="fas fa-arrow-up me-1"></i>+2.1%
-                            </div>
-                        </div>
+                    <div class="text-right">
+                        <p class="text-xl font-bold text-gray-900 dark:text-white">Rp {{ number_format($avgOrderValue, 0, ',', '.') }}</p>
+                        <p class="text-sm text-green-600 dark:text-green-400">
+                            <i class="fas fa-arrow-up mr-1"></i>+8.2%
+                        </p>
                     </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background: var(--light-bg);">
-                        <div>
-                            <div class="fw-semibold text-warning">Stock Alerts</div>
-                            <div class="text-muted small">Low stock items</div>
-                        </div>
-                        <div class="text-end">
-                            <div class="h5 mb-0 fw-bold">{{ $lowStockProducts }}</div>
-                            <div class="text-warning small">
-                                <i class="fas fa-exclamation-triangle me-1"></i>Needs attention
-                            </div>
-                        </div>
+                </div>
+                
+                <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div>
+                        <p class="font-semibold text-purple-600 dark:text-purple-400">Conversion Rate</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">This month</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ $conversionRate }}%</p>
+                        <p class="text-sm text-green-600 dark:text-green-400">
+                            <i class="fas fa-arrow-up mr-1"></i>+2.1%
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div>
+                        <p class="font-semibold text-orange-600 dark:text-orange-400">Total Orders</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">This month</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ number_format($totalSales) }}</p>
+                        <p class="text-sm text-green-600 dark:text-green-400">
+                            <i class="fas fa-arrow-up mr-1"></i>+12.5%
+                        </p>
                     </div>
                 </div>
             </div>
@@ -186,222 +181,168 @@
     </div>
 </div>
 
-<!-- Recent Activity and Top Products -->
-<div class="row">
-    <!-- Recent Sales -->
-    <div class="col-xl-6 mb-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-clock me-2 text-primary"></i>
-                    Recent Sales
-                </h5>
-                <a href="{{ route('sales.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
-            </div>
-            <div class="card-body p-0">
-                @if($recentSales->count() > 0)
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="border-0 ps-3">Invoice</th>
-                                    <th class="border-0">Customer</th>
-                                    <th class="border-0">Amount</th>
-                                    <th class="border-0">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($recentSales as $sale)
-                                <tr>
-                                    <td class="ps-3">
-                                        <div class="fw-semibold">{{ $sale->invoice_number }}</div>
-                                        <small class="text-muted">{{ $sale->created_at->format('M d, H:i') }}</small>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold">{{ $sale->customer->name }}</div>
-                                        <small class="text-muted">{{ $sale->customer->customer_code }}</small>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold text-primary">Rp {{ number_format($sale->final_amount, 0, ',', '.') }}</div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-{{ $sale->status == 'completed' ? 'success' : 'warning' }}">
-                                            {{ ucfirst($sale->status) }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+<!-- Recent Activity -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Top Products -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+                <i class="fas fa-star text-yellow-500 mr-2"></i>
+                Top Products
+            </h3>
+            <div class="space-y-4">
+                @forelse($topProducts as $product)
+                <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-box text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900 dark:text-white">{{ $product->name }}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $product->sku }}</p>
+                        </div>
                     </div>
-                @else
-                    <div class="text-center py-4">
-                        <i class="fas fa-shopping-cart fa-2x text-muted mb-3"></i>
-                        <p class="text-muted mb-0">No recent sales found</p>
+                    <div class="text-right">
+                        <p class="font-semibold text-gray-900 dark:text-white">{{ number_format($product->total_sold) }}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">units sold</p>
                     </div>
-                @endif
+                </div>
+                @empty
+                <div class="text-center py-8">
+                    <i class="fas fa-box text-gray-400 text-4xl mb-4"></i>
+                    <p class="text-gray-500 dark:text-gray-400">No products data available</p>
+                </div>
+                @endforelse
             </div>
         </div>
     </div>
-    
-    <!-- Top Products -->
-    <div class="col-xl-6 mb-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-star me-2 text-primary"></i>
-                    Top Products
-                </h5>
-                <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
-            </div>
-            <div class="card-body p-0">
-                @if($topProducts->count() > 0)
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="border-0 ps-3">Product</th>
-                                    <th class="border-0">Sold</th>
-                                    <th class="border-0">Revenue</th>
-                                    <th class="border-0">Stock</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($topProducts as $product)
-                                <tr>
-                                    <td class="ps-3">
-                                        <div class="fw-semibold">{{ $product->name }}</div>
-                                        <small class="text-muted">{{ $product->sku }}</small>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold">{{ number_format($product->total_sold) }}</div>
-                                        <small class="text-muted">units</small>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold text-success">Rp {{ number_format($product->total_sold * $product->price, 0, ',', '.') }}</div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-{{ $product->stock <= $product->min_stock ? 'danger' : 'success' }}">
-                                            {{ number_format($product->stock) }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+
+    <!-- Recent Sales -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+                <i class="fas fa-clock text-green-500 mr-2"></i>
+                Recent Sales
+            </h3>
+            <div class="space-y-4">
+                @forelse($recentSales as $sale)
+                <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shopping-cart text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900 dark:text-white">{{ $sale->customer->name ?? 'Unknown Customer' }}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $sale->created_at->format('M j, Y') }}</p>
+                        </div>
                     </div>
-                @else
-                    <div class="text-center py-4">
-                        <i class="fas fa-box fa-2x text-muted mb-3"></i>
-                        <p class="text-muted mb-0">No product data available</p>
+                    <div class="text-right">
+                        <p class="font-semibold text-gray-900 dark:text-white">Rp {{ number_format($sale->final_amount, 0, ',', '.') }}</p>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            {{ ucfirst($sale->status) }}
+                        </span>
                     </div>
-                @endif
+                </div>
+                @empty
+                <div class="text-center py-8">
+                    <i class="fas fa-shopping-cart text-gray-400 text-4xl mb-4"></i>
+                    <p class="text-gray-500 dark:text-gray-400">No recent sales</p>
+                </div>
+                @endforelse
             </div>
         </div>
     </div>
 </div>
 
 <!-- Quick Actions -->
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-bolt me-2 text-primary"></i>
-                    Quick Actions
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-3 col-sm-6">
-                        <a href="{{ route('sales.create') }}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
-                            <i class="fas fa-plus-circle fa-2x mb-2"></i>
-                            <span class="fw-semibold">New Sale</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="{{ route('purchases.create') }}" class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
-                            <i class="fas fa-shopping-bag fa-2x mb-2"></i>
-                            <span class="fw-semibold">New Purchase</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="{{ route('products.create') }}" class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
-                            <i class="fas fa-box fa-2x mb-2"></i>
-                            <span class="fw-semibold">Add Product</span>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <a href="{{ route('inventory.stock-alert') }}" class="btn btn-outline-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
-                            <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
-                            <span class="fw-semibold">Stock Alerts</span>
-                            @if($lowStockProducts > 0)
-                                <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">{{ $lowStockProducts }}</span>
-                            @endif
-                        </a>
-                    </div>
-                </div>
-            </div>
+<div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+            Quick Actions
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="{{ route('products.create') }}" class="flex flex-col items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
+                <i class="fas fa-plus text-blue-600 dark:text-blue-400 text-2xl mb-2"></i>
+                <span class="text-sm font-medium text-blue-700 dark:text-blue-300">Add Product</span>
+            </a>
+            <a href="{{ route('sales.create') }}" class="flex flex-col items-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors">
+                <i class="fas fa-shopping-cart text-green-600 dark:text-green-400 text-2xl mb-2"></i>
+                <span class="text-sm font-medium text-green-700 dark:text-green-300">New Sale</span>
+            </a>
+            <a href="{{ route('customers.create') }}" class="flex flex-col items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors">
+                <i class="fas fa-user-plus text-purple-600 dark:text-purple-400 text-2xl mb-2"></i>
+                <span class="text-sm font-medium text-purple-700 dark:text-purple-300">Add Customer</span>
+            </a>
+            <a href="{{ route('reports.sales') }}" class="flex flex-col items-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors">
+                <i class="fas fa-chart-bar text-orange-600 dark:text-orange-400 text-2xl mb-2"></i>
+                <span class="text-sm font-medium text-orange-700 dark:text-orange-300">View Reports</span>
+            </a>
         </div>
     </div>
 </div>
 
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Sales Chart
-const ctx = document.getElementById('salesChart').getContext('2d');
-const salesChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: {!! json_encode($salesTrendLabels) !!},
-        datasets: [{
-            label: 'Sales',
-            data: {!! json_encode($salesTrendData) !!},
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#6366f1',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2,
-            pointRadius: 6,
-            pointHoverRadius: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    
+    const salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @json($salesTrendLabels),
+            datasets: [{
+                label: 'Sales Amount',
+                data: @json($salesTrendData),
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#3b82f6',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
         },
-        scales: {
-            x: {
-                grid: {
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
                     display: false
-                },
-                ticks: {
-                    color: '#64748b'
                 }
             },
-            y: {
-                grid: {
-                    color: '#e2e8f0'
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(156, 163, 175, 0.1)'
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        callback: function(value) {
+                            return 'Rp ' + value.toLocaleString();
+                        }
+                    }
                 },
-                ticks: {
-                    color: '#64748b',
-                    callback: function(value) {
-                        return 'Rp ' + value.toLocaleString();
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#6b7280'
                     }
                 }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
             }
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index'
         }
-    }
+    });
 });
 </script>
 @endsection

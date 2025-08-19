@@ -3,55 +3,63 @@
 @section('title', 'Products')
 
 @section('content')
-<!-- Header Section -->
-<div class="d-flex justify-content-between align-items-center mb-4">
+<!-- Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
     <div>
-        <h1 class="h3 mb-1" style="color: var(--text-primary); font-weight: 600;">
-            Products Management
-        </h1>
-        <p class="text-muted mb-0">Manage your product catalog and inventory</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">Manage your product inventory</p>
     </div>
-    <div class="d-flex gap-2">
-        <a href="{{ route('products.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus me-2"></i>Add Product
+    <div class="mt-4 sm:mt-0">
+        <a href="{{ route('products.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+            <i class="fas fa-plus mr-2"></i>
+            Add Product
         </a>
     </div>
 </div>
 
-<!-- Search and Filter -->
-<div class="card mb-4">
-    <div class="card-body">
-        <form method="GET" action="{{ route('products.index') }}" class="row g-3">
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0">
-                        <i class="fas fa-search text-muted"></i>
-                    </span>
-                    <input type="text" class="form-control border-start-0" name="search" 
-                           placeholder="Search products..." value="{{ request('search') }}">
-                </div>
+<!-- Search and Filters -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
+    <div class="p-6">
+        <form method="GET" action="{{ route('products.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Search -->
+            <div>
+                <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search</label>
+                <input type="text" name="search" id="search" value="{{ request('search') }}" 
+                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                       placeholder="Search products...">
             </div>
-            <div class="col-md-3">
-                <select class="form-select" name="category_id">
+            
+            <!-- Category Filter -->
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+                <select name="category" id="category" 
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                     <option value="">All Categories</option>
-                    @foreach($categories ?? [] as $category)
-                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-3">
-                <select class="form-select" name="stock_status">
-                    <option value="">All Stock Status</option>
+            
+            <!-- Stock Status Filter -->
+            <div>
+                <label for="stock_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Stock Status</label>
+                <select name="stock_status" id="stock_status" 
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="">All</option>
                     <option value="in_stock" {{ request('stock_status') == 'in_stock' ? 'selected' : '' }}>In Stock</option>
                     <option value="low_stock" {{ request('stock_status') == 'low_stock' ? 'selected' : '' }}>Low Stock</option>
                     <option value="out_of_stock" {{ request('stock_status') == 'out_of_stock' ? 'selected' : '' }}>Out of Stock</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-outline-primary w-100">
-                    <i class="fas fa-filter me-1"></i>Filter
+            
+            <!-- Filter Button -->
+            <div class="flex items-end">
+                <button type="submit" class="w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200">
+                    <i class="fas fa-filter mr-2"></i>
+                    Filter
                 </button>
             </div>
         </form>
@@ -60,203 +68,123 @@
 
 <!-- Products Grid -->
 @if($products->count() > 0)
-    <div class="row">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         @foreach($products as $product)
-        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-            <div class="card h-100 product-card">
-                <div class="position-relative">
-                    @if($product->image)
-                        <img src="{{ asset('images/products/' . $product->image) }}" 
-                             class="card-img-top" alt="{{ $product->name }}"
-                             style="height: 200px; object-fit: cover;">
-                    @else
-                        <div class="card-img-top d-flex align-items-center justify-content-center bg-light" 
-                             style="height: 200px;">
-                            <i class="fas fa-box fa-2x text-muted"></i>
-                        </div>
-                    @endif
-                    
-                    <!-- Stock Status Badge -->
-                    <div class="position-absolute top-0 end-0 m-2">
-                        @if($product->stock == 0)
-                            <span class="badge bg-danger">Out of Stock</span>
-                        @elseif($product->stock <= $product->min_stock)
-                            <span class="badge bg-warning">Low Stock</span>
-                        @else
-                            <span class="badge bg-success">In Stock</span>
-                        @endif
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
+            <!-- Product Image -->
+            <div class="relative h-48 bg-gray-100 dark:bg-gray-700 rounded-t-xl overflow-hidden">
+                @if($product->image)
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" 
+                         class="w-full h-full object-cover">
+                @else
+                    <div class="w-full h-full flex items-center justify-center">
+                        <i class="fas fa-box text-gray-400 text-4xl"></i>
                     </div>
-                    
-                    <!-- Category Badge -->
-                    <div class="position-absolute top-0 start-0 m-2">
-                        <span class="badge bg-info">{{ $product->category->name }}</span>
+                @endif
+                
+                <!-- Stock Status Badge -->
+                <div class="absolute top-3 right-3">
+                    @if($product->stock == 0)
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                            Out of Stock
+                        </span>
+                    @elseif($product->stock <= $product->min_stock)
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                            Low Stock
+                        </span>
+                    @else
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            In Stock
+                        </span>
+                    @endif
+                </div>
+            </div>
+            
+            <!-- Product Info -->
+            <div class="p-4">
+                <div class="mb-3">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">
+                        {{ $product->name }}
+                    </h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">{{ $product->sku }}</p>
+                    @if($product->category)
+                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            {{ $product->category->name }}
+                        </span>
+                    @endif
+                </div>
+                
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                            Rp {{ number_format($product->price, 0, ',', '.') }}
+                        </p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            Stock: {{ number_format($product->stock) }}
+                        </p>
                     </div>
                 </div>
                 
-                <div class="card-body d-flex flex-column">
-                    <h6 class="card-title fw-semibold mb-2" style="color: var(--text-primary);">
-                        {{ $product->name }}
-                    </h6>
-                    
-                    <p class="text-muted small mb-3">{{ Str::limit($product->description, 80) }}</p>
-                    
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-muted small">SKU:</span>
-                            <span class="fw-semibold text-secondary">{{ $product->sku }}</span>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-muted small">Price:</span>
-                            <span class="fw-bold text-primary">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted small">Stock:</span>
-                            <span class="fw-semibold {{ $product->stock <= $product->min_stock ? 'text-danger' : 'text-success' }}">
-                                {{ number_format($product->stock) }}
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-auto">
-                        <div class="btn-group w-100" role="group">
-                            <a href="{{ route('products.show', $product) }}" 
-                               class="btn btn-outline-info btn-sm" title="View">
-                                <i class="fas fa-eye fa-sm"></i>
-                            </a>
-                            <a href="{{ route('products.edit', $product) }}" 
-                               class="btn btn-outline-warning btn-sm" title="Edit">
-                                <i class="fas fa-edit fa-sm"></i>
-                            </a>
-                            <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                        onclick="return confirm('Are you sure you want to delete this product?')" title="Delete">
-                                    <i class="fas fa-trash fa-sm"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                <!-- Actions -->
+                <div class="flex space-x-2">
+                    <a href="{{ route('products.show', $product) }}" 
+                       class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <i class="fas fa-eye mr-1"></i>
+                        View
+                    </a>
+                    <a href="{{ route('products.edit', $product) }}" 
+                       class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-blue-300 text-sm font-medium rounded-lg text-blue-700 bg-blue-50 hover:bg-blue-100 dark:border-blue-600 dark:text-blue-300 dark:bg-blue-900/20 dark:hover:bg-blue-900/40 transition-colors duration-200">
+                        <i class="fas fa-edit mr-1"></i>
+                        Edit
+                    </a>
+                    <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline" 
+                          onsubmit="return confirm('Are you sure you want to delete this product?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" 
+                                class="inline-flex items-center justify-center px-3 py-2 border border-red-300 text-sm font-medium rounded-lg text-red-700 bg-red-50 hover:bg-red-100 dark:border-red-600 dark:text-red-300 dark:bg-red-900/20 dark:hover:bg-red-900/40 transition-colors duration-200">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
         @endforeach
     </div>
     
-    <!-- Responsive Pagination -->
+    <!-- Pagination -->
     @if($products->hasPages())
-        <div class="d-flex justify-content-center mt-4">
-            <nav aria-label="Products pagination">
-                {{ $products->appends(request()->query())->links('pagination::bootstrap-5') }}
-            </nav>
+        <div class="flex justify-center">
+            {{ $products->appends(request()->query())->links('pagination::tailwind') }}
         </div>
     @endif
 @else
     <!-- Empty State -->
-    <div class="card">
-        <div class="card-body text-center py-5">
-            <div class="mb-4">
-                <i class="fas fa-box fa-3x text-muted"></i>
-            </div>
-            <h4 class="text-muted mb-3">No Products Found</h4>
-            <p class="text-muted mb-4">
-                @if(request('search') || request('category_id') || request('stock_status'))
-                    Try adjusting your search criteria or filters.
-                @else
-                    Get started by adding your first product to the catalog.
-                @endif
-            </p>
-            <a href="{{ route('products.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Add Your First Product
-            </a>
+    <div class="text-center py-12">
+        <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
+            <i class="fas fa-box text-gray-400 text-3xl"></i>
         </div>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No products found</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-6">
+            @if(request('search') || request('category') || request('stock_status'))
+                Try adjusting your search criteria or filters.
+            @else
+                Get started by adding your first product.
+            @endif
+        </p>
+        <a href="{{ route('products.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200">
+            <i class="fas fa-plus mr-2"></i>
+            Add Product
+        </a>
     </div>
 @endif
 
 <style>
-.product-card {
-    transition: all 0.3s ease;
-    border: 1px solid var(--border-color);
-}
-
-.product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-}
-
-.product-card .card-img-top {
-    border-radius: 0.75rem 0.75rem 0 0;
-}
-
-.product-card .card-body {
-    border-radius: 0 0 0.75rem 0.75rem;
-}
-
-.btn-group .btn {
-    border-radius: 0.5rem;
-    margin: 0 2px;
-    padding: 0.375rem 0.75rem;
-}
-
-.btn-group .btn:first-child {
-    margin-left: 0;
-}
-
-.btn-group .btn:last-child {
-    margin-right: 0;
-}
-
-/* Responsive Pagination Styles */
-.pagination {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.25rem;
-}
-
-.pagination .page-link {
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
-}
-
-.pagination .page-link:hover {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: white;
-}
-
-.pagination .page-item.active .page-link {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: white;
-}
-
-.pagination .page-item.disabled .page-link {
-    color: var(--text-muted);
-    background-color: transparent;
-    border-color: var(--border-color);
-}
-
-/* Mobile responsive pagination */
-@media (max-width: 768px) {
-    .pagination {
-        font-size: 0.8rem;
-    }
-    
-    .pagination .page-link {
-        padding: 0.375rem 0.5rem;
-        min-width: 2.5rem;
-    }
-    
-    .btn-group .btn {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.75rem;
-    }
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 </style>
 @endsection
