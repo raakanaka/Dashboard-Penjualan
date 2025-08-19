@@ -53,6 +53,22 @@ class Product extends Model
     }
 
     /**
+     * Get the sales for the product through sale items.
+     */
+    public function sales()
+    {
+        return $this->hasManyThrough(Sale::class, SaleItem::class);
+    }
+
+    /**
+     * Get the purchases for the product through purchase items.
+     */
+    public function purchases()
+    {
+        return $this->hasManyThrough(Purchase::class, PurchaseItem::class);
+    }
+
+    /**
      * Scope a query to only include active products.
      */
     public function scopeActive($query)
@@ -73,7 +89,7 @@ class Product extends Model
      */
     public function scopeOutOfStock($query)
     {
-        return $query->where('stock_quantity', 0);
+        return $this->where('stock_quantity', 0);
     }
 
     /**
@@ -106,11 +122,11 @@ class Product extends Model
     }
 
     /**
-     * Get the formatted price.
+     * Get the formatted selling price.
      */
-    public function getFormattedPriceAttribute()
+    public function getFormattedSellingPriceAttribute()
     {
-        return 'Rp ' . number_format($this->price, 0, ',', '.');
+        return 'Rp ' . number_format($this->selling_price, 0, ',', '.');
     }
 
     /**
@@ -126,7 +142,7 @@ class Product extends Model
      */
     public function getStockValueAttribute()
     {
-        return $this->stock * $this->price;
+        return $this->stock_quantity * $this->selling_price;
     }
 
     /**

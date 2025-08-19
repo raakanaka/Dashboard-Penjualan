@@ -83,33 +83,33 @@ class InventoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $inventory)
     {
-        return view('inventory.show', compact('product'));
+        return view('inventory.show', compact('inventory'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $inventory)
     {
         $categories = Category::where('is_active', true)->get();
-        return view('inventory.edit', compact('product', 'categories'));
+        return view('inventory.edit', compact('inventory', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Product $inventory)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'sku' => 'required|string|max:50|unique:products,sku,' . $product->id,
-            'price' => 'required|numeric|min:0',
+            'sku' => 'required|string|max:50|unique:products,sku,' . $inventory->id,
+            'selling_price' => 'required|numeric|min:0',
             'cost_price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'min_stock' => 'required|integer|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            'reorder_level' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -118,8 +118,8 @@ class InventoryController extends Controller
         
         if ($request->hasFile('image')) {
             // Delete old image if exists
-            if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
-                unlink(public_path('images/products/' . $product->image));
+            if ($inventory->image && file_exists(public_path('images/products/' . $inventory->image))) {
+                unlink(public_path('images/products/' . $inventory->image));
             }
             
             $image = $request->file('image');
@@ -128,7 +128,7 @@ class InventoryController extends Controller
             $data['image'] = $imageName;
         }
 
-        $product->update($data);
+        $inventory->update($data);
 
         return redirect()->route('inventory.index')
             ->with('success', 'Inventory updated successfully.');
@@ -137,14 +137,14 @@ class InventoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $inventory)
     {
         // Delete image if exists
-        if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
-            unlink(public_path('images/products/' . $product->image));
+        if ($inventory->image && file_exists(public_path('images/products/' . $inventory->image))) {
+            unlink(public_path('images/products/' . $inventory->image));
         }
 
-        $product->delete();
+        $inventory->delete();
 
         return redirect()->route('inventory.index')
             ->with('success', 'Product removed from inventory successfully.');
@@ -156,12 +156,12 @@ class InventoryController extends Controller
     public function stockAlert()
     {
         $lowStockProducts = Product::with('category')
-            ->whereRaw('stock <= min_stock')
-            ->orderBy('stock', 'asc')
+            ->whereRaw('stock_quantity <= reorder_level')
+            ->orderBy('stock_quantity', 'asc')
             ->get();
 
         $outOfStockProducts = Product::with('category')
-            ->where('stock', 0)
+            ->where('stock_quantity', 0)
             ->orderBy('name', 'asc')
             ->get();
 
@@ -171,25 +171,25 @@ class InventoryController extends Controller
     /**
      * Show the form for adjusting stock.
      */
-    public function adjustStock(Product $product)
+    public function adjustStock(Product $inventory)
     {
-        return view('inventory.adjust-stock', compact('product'));
+        return view('inventory.adjust-stock', compact('inventory'));
     }
 
     /**
      * Update stock manually.
      */
-    public function updateStock(Request $request, Product $product)
+    public function updateStock(Request $request, Product $inventory)
     {
         $request->validate([
             'stock_quantity' => 'required|integer|min:0',
             'reason' => 'required|string|max:255',
         ]);
 
-        $oldStock = $product->stock_quantity;
+        $oldStock = $inventory->stock_quantity;
         $newStock = $request->stock_quantity;
         
-        $product->update(['stock_quantity' => $newStock]);
+        $inventory->update(['stock_quantity' => $newStock]);
 
         // Log the stock adjustment
         // You can add a stock adjustment log table here if needed
