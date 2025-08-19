@@ -44,6 +44,9 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="h-full bg-gray-50 dark:bg-gray-900 font-inter transition-colors duration-300">
     <div class="flex h-full">
@@ -63,41 +66,52 @@
             <!-- Sidebar Navigation -->
             <div class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
                 <!-- Dashboard -->
+                @if(auth()->user()->hasPermission('dashboard'))
                 <a href="{{ route('dashboard') }}" 
                    class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('dashboard') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-tachometer-alt w-5 h-5 mr-3"></i>
                     <span>Dashboard</span>
                 </a>
+                @endif
                 
                 <!-- Products -->
+                @if(auth()->user()->hasPermission('inventory'))
                 <a href="{{ route('products.index') }}" 
                    class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('products.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-box w-5 h-5 mr-3"></i>
                     <span>Products</span>
                 </a>
+                @endif
                 
                 <!-- Sales -->
+                @if(auth()->user()->hasPermission('sales'))
                 <a href="{{ route('sales.index') }}" 
                    class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('sales.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
                     <span>Sales</span>
                 </a>
+                @endif
                 
                 <!-- Purchases -->
+                @if(auth()->user()->hasPermission('purchases'))
                 <a href="{{ route('purchases.index') }}" 
                    class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('purchases.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-truck w-5 h-5 mr-3"></i>
                     <span>Purchases</span>
                 </a>
+                @endif
                 
                 <!-- Customers -->
+                @if(auth()->user()->hasPermission('customers'))
                 <a href="{{ route('customers.index') }}" 
                    class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('customers.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-users w-5 h-5 mr-3"></i>
                     <span>Customers</span>
                 </a>
+                @endif
                 
                 <!-- Suppliers -->
+                @if(auth()->user()->hasPermission('suppliers'))
                 <a href="{{ route('suppliers.index') }}" 
                    class="nav-link flex items-center px-4 py-3 text-white rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('suppliers.*') ? 'bg-white/20 shadow-lg' : '' }}">
                     <i class="fas fa-building w-5 h-5 mr-3"></i>
@@ -132,6 +146,48 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Advertisers Section -->
+                @if(auth()->user()->hasPermission('advertisers'))
+                <div class="mt-8">
+                    <h3 class="px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Advertising</h3>
+                    <div class="mt-2 space-y-1">
+                        <a href="{{ route('advertisers.index') }}"
+                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('advertisers.*') ? 'bg-white/20 shadow-lg' : '' }}">
+                            <i class="fas fa-bullhorn w-4 h-4 mr-3"></i>
+                            <span class="text-sm">Advertisers</span>
+                        </a>
+                    </div>
+                </div>
+                @endif
+
+                <!-- Budgets Section -->
+                @if(auth()->user()->hasPermission('budgets'))
+                <div class="mt-8">
+                    <h3 class="px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Budget Management</h3>
+                    <div class="mt-2 space-y-1">
+                        <a href="{{ route('budgets.index') }}"
+                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('budgets.*') ? 'bg-white/20 shadow-lg' : '' }}">
+                            <i class="fas fa-coins w-4 h-4 mr-3"></i>
+                            <span class="text-sm">Budgets</span>
+                        </a>
+                    </div>
+                </div>
+                @endif
+
+                <!-- Admin Section -->
+                @if(auth()->user()->isAdmin())
+                <div class="mt-8">
+                    <h3 class="px-4 text-xs font-semibold text-white/60 uppercase tracking-wider">Administration</h3>
+                    <div class="mt-2 space-y-1">
+                        <a href="{{ route('users.index') }}"
+                           class="nav-link flex items-center px-4 py-2 text-white/80 rounded-lg transition-all duration-300 hover:bg-white/10 {{ request()->routeIs('users.*') ? 'bg-white/20 shadow-lg' : '' }}">
+                            <i class="fas fa-users-cog w-4 h-4 mr-3"></i>
+                            <span class="text-sm">Users</span>
+                        </a>
+                    </div>
+                </div>
+                @endif
             </div>
         </nav>
 
@@ -161,14 +217,30 @@
                         </button>
                         
                         <!-- User Menu -->
-                        <div class="relative">
-                            <button class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
                                 <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm">
                                     <i class="fas fa-user text-white text-sm"></i>
                                 </div>
-                                <span class="hidden md:block font-medium">Admin</span>
+                                <span class="hidden md:block font-medium">{{ auth()->user()->name }}</span>
+                                <span class="hidden md:block text-xs text-gray-500 dark:text-gray-400">({{ auth()->user()->role->display_name ?? 'No Role' }})</span>
                                 <i class="fas fa-chevron-down text-xs"></i>
                             </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+                                <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">{{ auth()->user()->name }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ auth()->user()->email }}</p>
+                                    <p class="text-xs text-blue-600 dark:text-blue-400">{{ auth()->user()->role->display_name ?? 'No Role' }}</p>
+                                </div>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Sign Out
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
