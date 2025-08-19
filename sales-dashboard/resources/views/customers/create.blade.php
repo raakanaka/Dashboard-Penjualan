@@ -1,84 +1,124 @@
 @extends('layouts.app')
 
-@section('title', 'Add Customer')
+@section('title', 'Add New Customer')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">
-        <i class="fas fa-plus me-2"></i>Add New Customer
-    </h1>
-    <a href="{{ route('customers.index') }}" class="btn btn-outline-secondary">
-        <i class="fas fa-arrow-left me-2"></i>Back to Customers
-    </a>
+<!-- Header Section -->
+<div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg mb-6">
+    <div class="px-6 py-8">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="bg-white/20 rounded-full p-3 mr-4">
+                    <i class="fas fa-user-plus text-2xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold text-white mb-1">Add New Customer</h1>
+                    <p class="text-blue-100">Create a new customer account</p>
+                </div>
+            </div>
+            <a href="{{ route('customers.index') }}" class="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-lg transition-all duration-200 backdrop-blur-sm">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Customers
+            </a>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-8">
-        <div class="card">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">Customer Information</h5>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Content -->
+    <div class="lg:col-span-2">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h5 class="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+                    <i class="fas fa-user mr-2 text-blue-600 dark:text-blue-400"></i>
+                    Customer Information
+                </h5>
             </div>
-            <div class="card-body">
+            <div class="p-8">
                 <form action="{{ route('customers.store') }}" method="POST">
                     @csrf
                     
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="name" class="form-label">Customer Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Customer Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white @error('name') border-red-500 @enderror" 
+                                   id="name" name="name" value="{{ old('name') }}" required>
                             @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
                         
-                        <div class="col-md-6 mb-3">
-                            <label for="customer_code" class="form-label">Customer Code <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('customer_code') is-invalid @enderror" id="customer_code" name="customer_code" value="{{ old('customer_code') }}" required>
+                        <div>
+                            <label for="customer_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Customer Code <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white @error('customer_code') border-red-500 @enderror" 
+                                   id="customer_code" name="customer_code" value="{{ old('customer_code') }}" required>
                             @error('customer_code')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Email Address
+                            </label>
+                            <input type="email" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white @error('email') border-red-500 @enderror" 
+                                   id="email" name="email" value="{{ old('email') }}">
                             @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
                         
-                        <div class="col-md-6 mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}">
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Phone Number
+                            </label>
+                            <input type="text" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white @error('phone') border-red-500 @enderror" 
+                                   id="phone" name="phone" value="{{ old('phone') }}">
                             @error('phone')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
                     
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3">{{ old('address') }}</textarea>
+                    <div class="mb-6">
+                        <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Address
+                        </label>
+                        <textarea class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white @error('address') border-red-500 @enderror" 
+                                  id="address" name="address" rows="3" placeholder="Enter customer address...">{{ old('address') }}</textarea>
                         @error('address')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
                     
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">
+                    <div class="mb-8">
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
+                                   id="is_active" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                            <label for="is_active" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Active Customer
                             </label>
                         </div>
                     </div>
                     
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('customers.index') }}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i>Save Customer
+                    <div class="flex justify-end space-x-4">
+                        <a href="{{ route('customers.index') }}" 
+                           class="inline-flex items-center px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                            <i class="fas fa-times mr-2"></i>Cancel
+                        </a>
+                        <button type="submit" 
+                                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm font-bold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            <i class="fas fa-save mr-2"></i>Save Customer
                         </button>
                     </div>
                 </form>
@@ -86,41 +126,82 @@
         </div>
     </div>
     
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">Help</h5>
+    <!-- Sidebar -->
+    <div class="lg:col-span-1 space-y-8">
+        <!-- Help Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+                <h5 class="text-xl font-bold text-white flex items-center">
+                    <i class="fas fa-question-circle mr-2"></i>
+                    Help & Information
+                </h5>
             </div>
-            <div class="card-body">
-                <ul class="list-unstyled mb-0">
-                    <li class="mb-2">
-                        <i class="fas fa-info-circle text-info me-2"></i>
-                        <strong>Customer Code:</strong> Unique identifier for the customer
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-info-circle text-info me-2"></i>
-                        <strong>Email:</strong> Used for notifications and communications
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-info-circle text-info me-2"></i>
-                        <strong>Phone:</strong> Primary contact number
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-info-circle text-info me-2"></i>
-                        <strong>Address:</strong> Billing and shipping address
-                    </li>
-                </ul>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-2 mr-3 mt-1">
+                            <i class="fas fa-id-card text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h6 class="font-medium text-gray-900 dark:text-white mb-1">Customer Code</h6>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Unique identifier for the customer</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="bg-green-100 dark:bg-green-900/30 rounded-lg p-2 mr-3 mt-1">
+                            <i class="fas fa-envelope text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <div>
+                            <h6 class="font-medium text-gray-900 dark:text-white mb-1">Email Address</h6>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Used for notifications and communications</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="bg-purple-100 dark:bg-purple-900/30 rounded-lg p-2 mr-3 mt-1">
+                            <i class="fas fa-phone text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <div>
+                            <h6 class="font-medium text-gray-900 dark:text-white mb-1">Phone Number</h6>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Primary contact number</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="bg-amber-100 dark:bg-amber-900/30 rounded-lg p-2 mr-3 mt-1">
+                            <i class="fas fa-map-marker-alt text-amber-600 dark:text-amber-400"></i>
+                        </div>
+                        <div>
+                            <h6 class="font-medium text-gray-900 dark:text-white mb-1">Address</h6>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Billing and shipping address</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="card mt-3">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">Quick Tips</h5>
+        <!-- Quick Tips Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-4">
+                <h5 class="text-xl font-bold text-white flex items-center">
+                    <i class="fas fa-lightbulb mr-2"></i>
+                    Quick Tips
+                </h5>
             </div>
-            <div class="card-body">
-                <div class="alert alert-info">
-                    <i class="fas fa-lightbulb me-2"></i>
-                    <strong>Tip:</strong> Use a consistent format for customer codes (e.g., CUST001, CUST002) to make them easier to manage.
+            <div class="p-6">
+                <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <div class="bg-amber-100 dark:bg-amber-900/30 rounded-lg p-2 mr-3 mt-1">
+                            <i class="fas fa-lightbulb text-amber-600 dark:text-amber-400"></i>
+                        </div>
+                        <div>
+                            <h6 class="font-medium text-amber-800 dark:text-amber-200 mb-2">Pro Tip</h6>
+                            <p class="text-sm text-amber-700 dark:text-amber-300">
+                                Use a consistent format for customer codes (e.g., CUST001, CUST002) to make them easier to manage and search.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

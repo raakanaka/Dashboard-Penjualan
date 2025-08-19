@@ -44,9 +44,9 @@ Route::resource('customers', CustomerController::class);
 // Suppliers
 Route::resource('suppliers', SupplierController::class);
 
-// Inventory
-Route::resource('inventory', InventoryController::class);
+// Inventory - Stock Alert route must come before resource route
 Route::get('/inventory/stock-alert', [InventoryController::class, 'stockAlert'])->name('inventory.stock-alert');
+Route::resource('inventory', InventoryController::class);
 Route::get('/inventory/{inventory}/adjust-stock', [InventoryController::class, 'adjustStock'])->name('inventory.adjust-stock');
 Route::post('/inventory/{inventory}/adjust-stock', [InventoryController::class, 'updateStock'])->name('inventory.update-stock');
 
