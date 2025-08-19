@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CRMController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,4 +75,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Users (Admin only)
     Route::resource('users', UserController::class);
+    
+    // Advanced CRM Routes
+    Route::prefix('crm')->name('crm.')->group(function () {
+        Route::get('/dashboard', [CRMController::class, 'dashboard'])->name('dashboard');
+        Route::get('/leads', [CRMController::class, 'leads'])->name('leads');
+        Route::get('/segments', [CRMController::class, 'segments'])->name('segments');
+        Route::get('/interactions/{customer}', [CRMController::class, 'interactions'])->name('interactions');
+    });
 });
