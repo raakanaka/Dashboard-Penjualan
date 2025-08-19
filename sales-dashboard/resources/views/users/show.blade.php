@@ -3,7 +3,7 @@
 @section('title', 'User Details')
 
 @section('content')
-<div class="bg-gradient-to-r from-sky-400 to-blue-500 rounded-lg shadow-lg mb-6 p-6">
+<div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg mb-6 p-6">
     <h1 class="text-3xl font-bold text-white">{{ $user->name }}</h1>
 </div>
 
